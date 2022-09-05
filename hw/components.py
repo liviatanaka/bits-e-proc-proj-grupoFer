@@ -24,9 +24,7 @@ def and16(a, b, q):
 @block
 def or8way(a, b, c, d, e, f, g, h, q):
     """
-    a: 16 bits
-    b: 16 bits
-    q: 16 bits
+    a, b, c, ... h: 1 bit
 
     or bit a bit entre a e b
     """
@@ -43,7 +41,7 @@ def or8way(a, b, c, d, e, f, g, h, q):
 def orNway(a, q):
     """
     a: 16 bits
-    q: 16 bits
+    q: 1 bit
 
     or bit a bit dos valores de a: a[0] or a[1] ...
     """
@@ -208,6 +206,10 @@ def deMux8way(a, q0, q1, q2, q3, q4, q5, q6, q7, sel):
     return comb
 
 
+# -----------------------------#
+# Conceito B
+# -----------------------------#
+#
 @block
 def bin2hex(hex0, sw):
     """
@@ -241,3 +243,8 @@ def bin2bcd(b, bcd1, bcd0):
         bcd0.next = foo
 
     return comb
+
+
+# -----------------------------#
+# Conceito A
+# -----------------------------#
