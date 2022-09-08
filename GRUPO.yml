@@ -1,21 +1,23 @@
-Nome-Grupo: "Fer"
+
+Nome-Grupo: "Fernandinho"
 
 - user: 1
   name: Livia Tanaka
   git-username: liviatanaka
   blackboard-username: liviat1
-
+  
 - user: 2
   name: Isabelle da Silva Santos
   git-username: isabelleatt
   blackboard-username: isabelles
 
-  
-
-
-
+ - user: 3
+  name: ALan Matheus
+  git-username: alanmath
+  blackboard-username: alanm2
 
 - user: 5
   name: Fernando
   git-username: fernandovs4
   blackboard-username: fernandovs4
+
