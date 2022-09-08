@@ -31,3 +31,8 @@ jobs:
       - name: test and16
         run: |
           pytest hw/test_components.py -k and16
+      
+      - name: Combinacional
+        run: |
+        pytest hw/test_components.py
+
