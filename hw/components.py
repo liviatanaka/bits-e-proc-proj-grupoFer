@@ -21,39 +21,41 @@ def and16(a, b, q):
 
     return comb
  
- 
+
+
 @block
 def or8way(a, b, c, d, e, f, g, h, q):
-    """
-    a, b, c, ... h: 1 bit
+   """
+   a, b, c, ... h: 1 bit
  
-    or bit a bit entre a e b
-    """
-    foo = Signal(intbv(0))
+   or bit a bit entre a e b
+   """
+   foo = Signal(intbv(0))
  
-    @always_comb
-    def comb():
-        q.next = foo
+   @always_comb
+   def comb():
+       q.next = a or b or c or d or e or f or g or h
  
-    return comb
+   return comb
  
- 
+
 @block
 def orNway(a, q):
-    """
-    a: 16 bits
-    q: 1 bit
+   """
+   a: 16 bits
+   q: 1 bit
  
-    or bit a bit dos valores de a: a[0] or a[1] ...
-    """
-    foo = Signal(intbv(0))
+   or bit a bit dos valores de a: a[0] or a[1] ...
+   """
+   foo = Signal(intbv(0))
  
-    @always_comb
-    def comb():
-        q.next = foo
+   @always_comb
+   def comb():
  
-    return comb
+       q.next = a[0] or a[1] or a[2] or a[3] or a[4] or a[5] or a[6] or a[7] or a[8] or a[9] or a[10] or a[11] or a[12] or a[13] or a[14] or a[15] or a[16]
  
+   return comb
+
  
 @block
 def barrelShifter(a, dir, size, q):
