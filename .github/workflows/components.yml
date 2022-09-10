@@ -31,5 +31,14 @@ jobs:
       - name: test and16
         run: |
           pytest hw/test_components.py -k and16
+
+      - name: test mux2way
+        run: |
+          pytest hw/test_components.py -k mux2way
+        
+        - name: test mux4way
+        run: |
+          pytest hw/test_components.py -k mux4way
       
+
 
