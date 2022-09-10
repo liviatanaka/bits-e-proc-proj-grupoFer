@@ -40,9 +40,5 @@ jobs:
         run: |
           pytest hw/test_components.py -k mux4way
       
-      - name: Combinacional
-        run: |
-        pytest hw/test_components.py
-        pip install pip-upgrader
-        pip-upgrade requirements.txt
+
 
