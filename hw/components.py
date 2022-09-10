@@ -73,7 +73,13 @@ def barrelShifter(a, dir, size, q):
  
     @always_comb
     def comb():
-        q.next = foo
+
+        if dir == 0:
+            saida = a << size
+        else:
+            saida = a >> size
+        q.next = saida
+
  
     return comb
  
