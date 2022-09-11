@@ -45,11 +45,11 @@ jobs:
         run: |
           pytest hw/test_components.py -k barrelShifter
         
-      -name: test or8way
+      - name: test or8way
         run: |
           pytest hw/test_components.py -k or8way
-          
-      -name: test orNway
+
+      - name: test orNway
         run: |
           pytest hw/test_components.py -k orNway
 
