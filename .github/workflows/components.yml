@@ -60,6 +60,7 @@ jobs:
       - name: test deMux2way
         run: |
           pytest hw/test_components.py -k deMux2way
+          
       - name: test deMux4way
         run: |
           pytest hw/test_components.py -k deMux4way
