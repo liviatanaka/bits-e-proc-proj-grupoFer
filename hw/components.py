@@ -2,10 +2,6 @@
  
 from myhdl import *
  
-#!/usr/bin/env python3
- 
-from myhdl import *
- 
  
 @block
 def and16(a, b, q):
@@ -180,14 +176,15 @@ def deMux4way(a, q0, q1, q2, q3, sel):
  
     @always_comb
     def comb():
-        q0.next = foo
- 
+        lista = [q0, q1, q2, q3]
+        for i in range(len(lista)):
+            if i == sel:
+                lista[i].next = a
+            else:
+                lista[i].next = 0
+                
     return comb
 
- 
- 
-
- 
 @block
 def deMux8way(a, q0, q1, q2, q3, q4, q5, q6, q7, sel):
     """
@@ -200,7 +197,12 @@ def deMux8way(a, q0, q1, q2, q3, q4, q5, q6, q7, sel):
  
     @always_comb
     def comb():
-        q0.next = foo
+        lista = [q0, q1, q2, q3, q4, q5, q6, q7]
+        for i in range(len(lista)):
+            if i == sel:
+               lista[i].next = a
+            else:
+               lista[i].next = 0
  
     return comb
  
