@@ -2,6 +2,10 @@
  
 from myhdl import *
  
+#!/usr/bin/env python3
+ 
+from myhdl import *
+ 
  
 @block
 def and16(a, b, q):
@@ -57,6 +61,7 @@ def orNway(a, q):
    return comb
 
  
+ 
 @block
 def barrelShifter(a, dir, size, q):
     """
@@ -84,62 +89,6 @@ def barrelShifter(a, dir, size, q):
 
  
     return comb
- 
- 
-@block
-def mux2way(q, a, b, sel):
-    """
-    q: 16 bits
-    a: 16 bits
-    b: 16 bits
-    sel: 2 bits
- 
-    Mux entre a e b, sel é o seletor
-    """
-    foo = Signal(intbv(0))
- 
-    @always_comb
-    def comb():
-        q.next = foo
- 
-    return comb
- 
- 
-@block
-def mux4way(q, a, b, c, d, sel):
-    """
-    q: 16 bits
-    a: 16 bits
-    b: 16 bits
-    c: 16 bits
-    d: 16 bits
-    sel: 4 bits
- 
-    Mux entre a, b, c, d sel é o seletor
-    """
-    foo = Signal(intbv(0))
- 
-    @always_comb
-    def comb():
-        q.next = foo
- 
-    return comb
- 
- 
-@block
-def mux8way(q, a, b, c, d, e, f, g, h, sel):
-    """
-    Mux de 8 entradas, simular aos anteriores.
-    """
- 
-    foo = Signal(intbv(0))
- 
-    @always_comb
-    def comb():
-        q.next = foo
- 
-    return comb
- 
  
 @block
 def mux2way(q, a, b, sel):
@@ -182,6 +131,62 @@ def mux4way(q, a, b, c, d, sel):
  
    return comb
  
+ 
+@block
+def mux8way(q, a, b, c, d, e, f, g, h, sel):
+    """
+    Mux de 8 entradas, simular aos anteriores.
+    """
+ 
+    foo = Signal(intbv(0))
+ 
+    @always_comb
+    def comb():
+        q.next = foo
+ 
+    return comb
+ 
+@block
+def deMux2way(a, q0, q1, sel):
+    """
+    deMux de 2 saídas e uma entrada.
+ 
+    - Lembre que a saída que não está ativada é 0
+ 
+    Exemplo:
+ 
+    a = 0xFFAA, sel = 0
+    q0 = 0xFFAA
+    q1 = 0
+    """
+ 
+    foo = Signal(intbv(0))
+ 
+    @always_comb
+    def comb():
+        q0.next = foo
+ 
+    return comb
+
+@block
+def deMux4way(a, q0, q1, q2, q3, sel):
+    """
+    deMux de 4 saídas e uma entrada.
+ 
+    - Lembre que a saída que não está ativada é 0
+    """
+ 
+    foo = Signal(intbv(0))
+ 
+    @always_comb
+    def comb():
+        q0.next = foo
+ 
+    return comb
+
+ 
+ 
+
  
 @block
 def deMux8way(a, q0, q1, q2, q3, q4, q5, q6, q7, sel):
