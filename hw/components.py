@@ -130,39 +130,45 @@ def mux4way(q, a, b, c, d, sel):
  
 @block
 def mux8way(q, a, b, c, d, e, f, g, h, sel):
-    """
-    Mux de 8 entradas, simular aos anteriores.
-    """
+   """
+   Mux de 8 entradas, simular aos anteriores.
+   """
  
-    foo = Signal(intbv(0))
+   foo = Signal(intbv(0))
  
-    @always_comb
-    def comb():
-        q.next = foo
+   @always_comb
+   def comb():
+       lista = [a,b,c,d,e,f,g,h]
+       q.next = lista[sel]
  
-    return comb
+   return comb
  
 @block
 def deMux2way(a, q0, q1, sel):
-    """
-    deMux de 2 saídas e uma entrada.
+   """
+   deMux de 2 saídas e uma entrada.
  
-    - Lembre que a saída que não está ativada é 0
+   - Lembre que a saída que não está ativada é 0
  
-    Exemplo:
+   Exemplo:
  
-    a = 0xFFAA, sel = 0
-    q0 = 0xFFAA
-    q1 = 0
-    """
+   a = 0xFFAA, sel = 0
+   q0 = 0xFFAA
+   q1 = 0
+   """
  
-    foo = Signal(intbv(0))
+   foo = Signal(intbv(0))
  
-    @always_comb
-    def comb():
-        q0.next = foo
+   @always_comb
+   def comb():
+       lista = [q0,q1]
+       for i in range(len(lista)):
+           if i == sel:
+               lista[i].next = a
+           else:
+               lista[i].next = 0
  
-    return comb
+   return comb
 
 @block
 def deMux4way(a, q0, q1, q2, q3, sel):

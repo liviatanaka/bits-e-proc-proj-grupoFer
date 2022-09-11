@@ -33,17 +33,17 @@ jobs:
         run: |
           pytest hw/test_components.py -k and16
 
-      # - name: test mux2way
-      #   run: |
-      #     pytest hw/test_components.py -k mux2way
+      - name: test mux2way
+        run: |
+          pytest hw/test_components.py -k mux2way
         
       - name: test mux4way
         run: |
           pytest hw/test_components.py -k mux4way
-      
-      - name: test and16
+
+      - name: test mux8way
         run: |
-          pytest hw/test_components.py -k barrelShifter
+          pytest hw/test_components.py -k mux8way
         
       - name: test or8way
         run: |
@@ -52,6 +52,10 @@ jobs:
       - name: test orNway
         run: |
           pytest hw/test_components.py -k orNway
+
+      - name: test deMux2way
+        run: |
+          pytest hw/test_components.py -k deMux2way
 
       - name: test deMux4way
         run: |
