@@ -44,4 +44,13 @@ jobs:
         run: |
           pytest hw/test_components.py -k barrelShifter
 
+          - name: test mux8way
+        run: |
+          pytest hw/test_components.py -k mux8way
+
+            - name: test mux4way
+        run: |
+          pytest hw/test_components.py -k mux4way
+
+
 
