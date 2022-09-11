@@ -132,8 +132,6 @@ def mux8way(q, a, b, c, d, e, f, g, h, sel):
  
    return comb
 
-
-@block
 def deMux2way(a, q0, q1, sel):
    """
    deMux de 2 saídas e uma entrada.
