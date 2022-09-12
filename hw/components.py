@@ -189,23 +189,6 @@ def deMux8way(a, q0, q1, q2, q3, q4, q5, q6, q7, sel):
     return comb
 
 
-@block
-def deMux8way(a, q0, q1, q2, q3, q4, q5, q6, q7, sel):
-    """
-    deMux de 8 saídas e uma entrada.
-
-    - Lembre que a saída que não está ativada é 0
-    """
-
-    foo = Signal(intbv(0))
-
-    @always_comb
-    def comb():
-        q0.next = foo
-
-    return comb
-
-
 # -----------------------------#
 # Conceito B
 # -----------------------------#
