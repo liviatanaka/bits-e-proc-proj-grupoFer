@@ -3,6 +3,7 @@
 from .components import *
 import random
 
+
 random.seed(5)
 randrange = random.randrange
 

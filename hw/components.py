@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
  
+from signal import Signals
 from myhdl import *
  
  
@@ -225,7 +226,38 @@ def bin2hex(hex0, sw):
  
     @always_comb
     def comb():
-        hex0.next[4:] = sw[4:]
+        if sw[4:0] == 0:
+            hex0.next = "1000000"
+        elif sw[4:0] == 1:
+            hex0.next = "1111001"
+        elif sw[4:0] == 2:
+            hex0.next = "0100100"
+        elif sw[4:0] == 3:
+            hex0.next = "0110000"
+        elif sw[4:0] == 4:
+            hex0.next = "0011001"
+        elif sw[4:0] == 5: #
+            hex0.next = "0010010"
+        elif sw[4:0] == 6:
+            hex0.next = "0000010"
+        elif sw[4:0] == 7:
+            hex0.next = "1111000"
+        elif sw[4:0] == 8:
+            hex0.next = "0000000"
+        elif sw[4:0] == 9:
+            hex0.next = "0010000"
+        elif sw[4:0] == 10:
+            hex0.next = "0001000"
+        elif sw[4:0] == 11:
+            hex0.next = "0000011"
+        elif sw[4:0] == 12:
+            hex0.next = "1000110"
+        elif sw[4:0] == 13:
+            hex0.next = "0100001"
+        elif sw[4:0] == 14:
+            hex0.next = "0000110"
+        else:
+            hex0.next = "0001110"
  
     return comb
  
@@ -234,6 +266,7 @@ DIG1 = tuple(i for i in range(10) for _ in range(10))
 
 @block
 def bin2bcd(b, bcd1, bcd0):
+
     """
     componente que converte um vetor de b[8:] (bin)
     para dois digitos em BCD
