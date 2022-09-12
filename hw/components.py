@@ -229,7 +229,9 @@ def bin2hex(hex0, sw):
  
     return comb
  
- 
+DIG0 = tuple(i for i in range(10) for i in range(10))
+DIG1 = tuple(i for i in range(10) for _ in range(10))
+
 @block
 def bin2bcd(b, bcd1, bcd0):
     """
@@ -240,14 +242,14 @@ def bin2bcd(b, bcd1, bcd0):
     bin  = `01010010`
     BCD1 = 8
     BCD0 = 2
-    """
- 
-    foo = Signal(intbv(0)[4:])
- 
+    """ 
     @always_comb
     def comb():
-        bcd1.next = foo
-        bcd0.next = foo
+        bcd0.next = DIG0[int(b)]
+        bcd1.next = DIG1[int(b)]
+    
+    
+
  
     return comb
  
