@@ -3,6 +3,7 @@
 from signal import Signals
 from myhdl import *
  
+ 
 @block
 def and16(a, b, q):
     """
@@ -130,39 +131,45 @@ def mux4way(q, a, b, c, d, sel):
  
 @block
 def mux8way(q, a, b, c, d, e, f, g, h, sel):
-    """
-    Mux de 8 entradas, simular aos anteriores.
-    """
+   """
+   Mux de 8 entradas, simular aos anteriores.
+   """
  
-    foo = Signal(intbv(0))
+   foo = Signal(intbv(0))
  
-    @always_comb
-    def comb():
-        q.next = foo
+   @always_comb
+   def comb():
+       lista = [a,b,c,d,e,f,g,h]
+       q.next = lista[sel]
  
-    return comb
+   return comb
  
 @block
 def deMux2way(a, q0, q1, sel):
-    """
-    deMux de 2 saídas e uma entrada.
+   """
+   deMux de 2 saídas e uma entrada.
  
-    - Lembre que a saída que não está ativada é 0
+   - Lembre que a saída que não está ativada é 0
  
-    Exemplo:
+   Exemplo:
  
-    a = 0xFFAA, sel = 0
-    q0 = 0xFFAA
-    q1 = 0
-    """
+   a = 0xFFAA, sel = 0
+   q0 = 0xFFAA
+   q1 = 0
+   """
  
-    foo = Signal(intbv(0))
+   foo = Signal(intbv(0))
  
-    @always_comb
-    def comb():
-        q0.next = foo
+   @always_comb
+   def comb():
+       lista = [q0,q1]
+       for i in range(len(lista)):
+           if i == sel:
+               lista[i].next = a
+           else:
+               lista[i].next = 0
  
-    return comb
+   return comb
 
 @block
 def deMux4way(a, q0, q1, q2, q3, sel):
@@ -176,14 +183,15 @@ def deMux4way(a, q0, q1, q2, q3, sel):
  
     @always_comb
     def comb():
-        q0.next = foo
- 
+        lista = [q0, q1, q2, q3]
+        for i in range(len(lista)):
+            if i == sel:
+                lista[i].next = a
+            else:
+                lista[i].next = 0
+                
     return comb
 
- 
- 
-
- 
 @block
 def deMux8way(a, q0, q1, q2, q3, q4, q5, q6, q7, sel):
     """
@@ -196,7 +204,12 @@ def deMux8way(a, q0, q1, q2, q3, q4, q5, q6, q7, sel):
  
     @always_comb
     def comb():
-        q0.next = foo
+        lista = [q0, q1, q2, q3, q4, q5, q6, q7]
+        for i in range(len(lista)):
+            if i == sel:
+               lista[i].next = a
+            else:
+               lista[i].next = 0
  
     return comb
  
@@ -213,15 +226,46 @@ def bin2hex(hex0, sw):
  
     @always_comb
     def comb():
-        hex0.next[4:] = sw[4:]
+        if sw[4:0] == 0:
+            hex0.next = "1000000"
+        elif sw[4:0] == 1:
+            hex0.next = "1111001"
+        elif sw[4:0] == 2:
+            hex0.next = "0100100"
+        elif sw[4:0] == 3:
+            hex0.next = "0110000"
+        elif sw[4:0] == 4:
+            hex0.next = "0011001"
+        elif sw[4:0] == 5: #
+            hex0.next = "0010010"
+        elif sw[4:0] == 6:
+            hex0.next = "0000010"
+        elif sw[4:0] == 7:
+            hex0.next = "1111000"
+        elif sw[4:0] == 8:
+            hex0.next = "0000000"
+        elif sw[4:0] == 9:
+            hex0.next = "0010000"
+        elif sw[4:0] == 10:
+            hex0.next = "0001000"
+        elif sw[4:0] == 11:
+            hex0.next = "0000011"
+        elif sw[4:0] == 12:
+            hex0.next = "1000110"
+        elif sw[4:0] == 13:
+            hex0.next = "0100001"
+        elif sw[4:0] == 14:
+            hex0.next = "0000110"
+        else:
+            hex0.next = "0001110"
  
     return comb
  
- 
+DIG0 = tuple(i for i in range(10) for i in range(10))
+DIG1 = tuple(i for i in range(10) for _ in range(10))
+
 @block
 def bin2bcd(b, bcd1, bcd0):
-    dig0 =tuple( i for i in range(10) for i in range(10))
-    dig1 = tuple(i for i in range(10) for _ in range(10))
 
     """
     componente que converte um vetor de b[8:] (bin)
@@ -231,19 +275,15 @@ def bin2bcd(b, bcd1, bcd0):
     bin  = `01010010`
     BCD1 = 8
     BCD0 = 2
-
-
-    # """
-    # bcd0 = Signal(intbv(0)[4:])
-    # bcd1 = Signal(intbv(0)[4:])
-    # b = Signal(intbv(0)[9:])
-    # # foo = Signal(intbv(0)[4:])
- 
+    """ 
     @always_comb
     def comb():
-        bcd0.next = dig0[int(b)]
-        bcd1.next = dig1[int(b)]
+        bcd0.next = DIG0[int(b)]
+        bcd1.next = DIG1[int(b)]
+    
+    
 
+ 
     return comb
  
  
