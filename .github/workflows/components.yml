@@ -1,3 +1,4 @@
+
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
@@ -36,13 +37,36 @@ jobs:
         run: |
           pytest hw/test_components.py -k mux2way
         
-        - name: test mux4way
+      - name: test mux4way
         run: |
           pytest hw/test_components.py -k mux4way
-      
-      - name: Combinacional
+
+      - name: test mux8way
         run: |
-        pytest hw/test_components.py
-        pip install pip-upgrader
-        pip-upgrade requirements.txt
+          pytest hw/test_components.py -k mux8way
+        
+      - name: test or8way
+        run: |
+          pytest hw/test_components.py -k or8way
+
+      - name: test orNway
+        run: |
+          pytest hw/test_components.py -k orNway
+
+      - name: test deMux2way
+        run: |
+          pytest hw/test_components.py -k deMux2way
+
+      - name: test deMux4way
+        run: |
+          pytest hw/test_components.py -k deMux4way
+
+      - name: test deMux8way
+        run: |
+          pytest hw/test_components.py -k deMux8way
+
+
+
+
+
 
