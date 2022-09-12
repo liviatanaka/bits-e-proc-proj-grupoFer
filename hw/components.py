@@ -247,6 +247,8 @@ def bin2bcd(b, bcd1, bcd0):
     def comb():
         bcd0.next = DIG0[int(b)]
         bcd1.next = DIG1[int(b)]
+    
+    
 
  
     return comb
