@@ -3,6 +3,7 @@
 from .components import *
 import random
 
+
 random.seed(5)
 randrange = random.randrange
 
@@ -204,15 +205,23 @@ def test_deMux8way():
 
 
 def test_bin2bcd():
+  
     bc0 = Signal(intbv(0)[4:])
     bc1 = Signal(intbv(0)[4:])
-    b = Signal(intbv(0)[9:])
+    b = Signal(intbv(0)[9:0])
+  
+ 
 
     ic1 = bin2bcd(b, bc1, bc0)
 
     @instance
     def stimulus():
+        b.next = 12
         yield delay(1)
+        assert bc1 == 2
+        assert bc1== 1
+        
+  
 
     sim = Simulation(ic1, stimulus)
     sim.run()

@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
  
+from signal import Signals
 from myhdl import *
- 
-#!/usr/bin/env python3
- 
-from myhdl import *
- 
  
 @block
 def and16(a, b, q):
@@ -224,6 +220,9 @@ def bin2hex(hex0, sw):
  
 @block
 def bin2bcd(b, bcd1, bcd0):
+    dig0 =tuple( i for i in range(10) for i in range(10))
+    dig1 = tuple(i for i in range(10) for _ in range(10))
+
     """
     componente que converte um vetor de b[8:] (bin)
     para dois digitos em BCD
@@ -232,15 +231,19 @@ def bin2bcd(b, bcd1, bcd0):
     bin  = `01010010`
     BCD1 = 8
     BCD0 = 2
-    """
- 
-    foo = Signal(intbv(0)[4:])
+
+
+    # """
+    # bcd0 = Signal(intbv(0)[4:])
+    # bcd1 = Signal(intbv(0)[4:])
+    # b = Signal(intbv(0)[9:])
+    # # foo = Signal(intbv(0)[4:])
  
     @always_comb
     def comb():
-        bcd1.next = foo
-        bcd0.next = foo
- 
+        bcd0.next = dig0[int(b)]
+        bcd1.next = dig1[int(b)]
+
     return comb
  
  
