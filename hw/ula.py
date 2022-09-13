@@ -129,3 +129,18 @@ def addcla16(a, b, q):
         pass
 
     return instances()
+
+
+# ----------------------------------------------
+# Conceito A
+# ----------------------------------------------
+
+
+@block
+def ula_new(x, y, c, zr, ng, sr, sf, bcd, saida, width=16):
+    pass
+
+
+@block
+def bcdAdder(x, y, z):
+    pass
