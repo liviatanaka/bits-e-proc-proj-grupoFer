@@ -75,7 +75,7 @@ jobs:
 
       - name: test comparador
         run: |
-          pytest hw/ula.py -k comparador
+          pytest hw/test_ula.py -k comparador
 
       
       
