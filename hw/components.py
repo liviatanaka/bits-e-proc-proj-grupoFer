@@ -77,14 +77,12 @@ def barrelShifter(a, dir, size, q):
  
     @always_comb
     def comb():
-
         if dir == 0:
             saida = a << size
         else:
             saida = a >> size
         q.next = saida
 
- 
     return comb
  
 @block
@@ -123,6 +121,11 @@ def mux4way(q, a, b, c, d, sel):
  
    @always_comb
    def comb():
+       if sel == 0:
+        q.next =a
+       elif sel == 1:
+        q.next = 1
+        
        lista = [a,b,c,d]
        q.next = lista[sel]
  

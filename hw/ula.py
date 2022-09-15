@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from signal import Signals
 from myhdl import *
 
 
@@ -33,9 +34,15 @@ def ula(x, y, c, zr, ng, saida, width=16):
 # ~z inverte bit a bit
 @block
 def inversor(z, a, y):
+    z = Signal(bool(0))
+
     @always_comb
     def comb():
-        pass
+        if z == 1:
+            y.next = not(a)
+        elif z == 0:
+            y.next = a
+           
 
     return instances()
 
@@ -43,8 +50,11 @@ def inversor(z, a, y):
 @block
 def comparador(a, zr, ng, width):
     # width insica o tamanho do vetor a
+   
+
     @always_comb
     def comb():
+        
         pass
 
     return instances()
@@ -54,7 +64,10 @@ def comparador(a, zr, ng, width):
 def zerador(z, a, y):
     @always_comb
     def comb():
-        pass
+        if z == 1:
+            y.next = a and 0
+        else:
+            y.next = a
 
     return instances()
 
@@ -63,6 +76,7 @@ def zerador(z, a, y):
 def add(a, b, q):
     @always_comb
     def comb():
+
         pass
 
     return instances()
