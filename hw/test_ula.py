@@ -206,30 +206,5 @@ def test_add():
 
 
 
-@block
-def test_addcla4x():
-    a = Signal(intbv(0))
-    b = Signal(intbv(0))
-    q = Signal(intbv(0))
-    carry = Signal(bool(0))
 
-    addcla4_1 = addcla4(a, b, q)
-    
-    @instance
-    def stimulus():
-        for i in range(256):
-            a.next = randrange(2**4 - 1)
-            b.next = randrange(2**4 - 1)
-            breakpoint()
-            yield delay(1)
-            print("{} {} {}" % (bin(a, 4), bin(b, 4), bin(q, 4)))
-            if q != a + b:
-                print("erro")
-                print("%s %s %s" % (a, b, q))
-                print("%s %s %s" % (bin(a, 4), bin(b, 4), bin(q, 4)))
-                print("%s" % (bin(a + b, 4)))
-                break
-
-    return instances()
-        
 
