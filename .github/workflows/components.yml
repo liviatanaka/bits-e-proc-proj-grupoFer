@@ -72,11 +72,23 @@ jobs:
       - name: test bin2bcd
         run: |
           pytest hw/test_components.py -k bin2bcd
+
           
+
+    
+    # testes da ULA #
+
+      - name: test zerador
+        run: |
+          pytest hw/test_ula.py -k zerador
+
+      - name: test comparador
+        run: |
+          pytest hw/test_ula.py -k comparador
+
       - name: test inversor
         run: |
           pytest hw/test_ula.py -k inversor
-
       
       
 
