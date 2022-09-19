@@ -35,7 +35,7 @@ def ula(x, y, c, zr, ng, saida, width=16):
 # ~z inverte bit a bit
 @block
 def inversor(z, a, y):
-    z = Signal(bool(0))
+    
 
     @always_comb
     def comb():
