@@ -216,8 +216,82 @@ def addcla16(a, b, q):
 
 
 @block
-def ula_new(x, y, c, zr, ng, sr, sf, bcd, saida, width=16):
-    pass
+def ula_new(x, y, c, zr, ng, sr, sf, m, bcd, saida, width=16):
+    zx_out = Signal(intbv(0)[width:])
+    nx_out = Signal(intbv(0)[width:])
+    zy_out = Signal(intbv(0)[width:])
+    ny_out = Signal(intbv(0)[width:])
+    and_out = Signal(intbv(0)[width:])
+    add_out = Signal(intbv(0)[width:])
+    mux_out = Signal(intbv(0)[width:])
+    no_out = Signal(intbv(0)[width:])
+
+    # novos
+    shift_r_out = Signal(intbv(0)[width:])
+    shift_l_out = Signal(intbv(0)[width:])
+    add_cla_out = Signal(intbv(0)[width:])
+    xor_out = Signal(intbv(0)[width:])
+    mux2_out = Signal(intbv(0)[width:])
+    mux_final_out = Signal(intbv(0)[width:])
+
+
+    c_zx = c(5)
+    c_nx = c(4)
+    c_zy = c(3)
+    c_ny = c(2)
+    c_f = c(1)
+    c_no = c(0)
+
+    # shifta
+    if sr == 1:
+        shifter_r = barrelShifter(x, 0, y, shift_r_out)
+    
+    if sf == 1:
+        shifter_l = barrelShifter(shift_r_out, 1, y, shift_l_out)
+    
+
+    # zeradores
+    zerador_x = zerador(c_zx, shift_l_out, zx_out)
+    zerador_y = zerador(c_zy, y,zy_out)
+
+    # inversores
+    inversor_x = inversor(c_nx, zx_out, nx_out)
+    inversor_y = inversor(c_ny, zy_out, ny_out)
+
+    # mux's
+
+    adicao_normal = add(nx_out, ny_out, add_out)
+    adicao_cla = addcla16(nx_out, ny_out, add_cla_out)
+    
+    xandy = x_and_y(nx_out, ny_out, and_out)
+    x_xor_y = xor(nx_out, ny_out, xor_out)
+
+    mux1 = mux2way(mux_out, and_out, add_out, c_f)
+    mux2 = mux2way(mux2_out, xor_out, add_cla_out, c_f)
+
+    mux_final = mux2way(mux_final_out, mux_out, mux_out, m)
+
+    # inversor final
+    inversor_final = inversor(c_no, mux_final_out, no_out)
+
+    #comparador
+    comparador_ = comparador(no_out, zr, ng, width)
+
+    
+    @always_comb
+    def comb():
+        saida.next = no_out
+
+    return instances()
+
+@block
+def xor(a, b, q):
+    
+    @always_comb
+    def comb():
+        q.next = a ^ b
+    
+    return instances()
 
 
 

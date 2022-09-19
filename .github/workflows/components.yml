@@ -99,4 +99,9 @@ jobs:
         run: |
           pytest hw/test_ula.py -k ula
 
+      - name: test xor
+        run: |
+          pytest hw/test_ula.py -k xor
+
+
 
