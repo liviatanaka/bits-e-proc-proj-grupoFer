@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from myhdl import *
+from .components import *
 
 
 @block
@@ -48,13 +49,14 @@ def comparador(a, zr, ng, width):
         if a == 0:
             zr.next = 1
             ng.next = 0
-        elif a < 0:
+        elif str(a)[0] == 'f' or int(a) < 1:
             zr.next = 0
             ng.next = 1
         else:
             zr.next = 0
             ng.next = 0
             
+
     return instances()
 
 
@@ -71,7 +73,7 @@ def zerador(z, a, y):
 def add(a, b, q):
     @always_comb
     def comb():
-        pass
+        q.next = a + b
 
     return instances()
 
@@ -123,12 +125,17 @@ def fullAdder(a, b, c, soma, carry):
 
 @block
 def addcla4(a, b, q):
-    @always_comb
+    s = [Signal(bool(0)) for i in range(4)]
+    faList = [None for i in range(3)]
+
+    faList[0] = fullAdder(a[0], b[0], 0, s[0], s[1])
+    faList[1] = fullAdder(a[1], b[1], s[1], s[2], s[3])
+    faList[2] = fullAdder(a[2], b[2], s[3], s[4], s[5])
     def comb():
-        pass
-
+        q.next = concat(s[4], s[2], s[0])
+    
     return instances()
-
+        
 
 @block
 def addcla16(a, b, q):
@@ -149,6 +156,10 @@ def ula_new(x, y, c, zr, ng, sr, sf, bcd, saida, width=16):
     pass
 
 
-@block
-def bcdAdder(x, y, z):
-    pass
+
+
+
+
+
+
+
