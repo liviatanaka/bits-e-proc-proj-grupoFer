@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
+from operator import concat
+from signal import Signals
 from myhdl import *
-
+from .components import *
 
 @block
 def ula(x, y, c, zr, ng, saida, width=16):
@@ -29,13 +31,20 @@ def ula(x, y, c, zr, ng, saida, width=16):
     return instances()
 
 
+
 # -z faz complemento de dois
 # ~z inverte bit a bit
 @block
 def inversor(z, a, y):
+    
+
     @always_comb
     def comb():
-        pass
+        if z == 1:
+            y.next = ~a
+        elif z == 0:
+            y.next = a
+           
 
     return instances()
 
@@ -43,9 +52,18 @@ def inversor(z, a, y):
 @block
 def comparador(a, zr, ng, width):
     # width insica o tamanho do vetor a
+    
     @always_comb
     def comb():
-        pass
+        if a == 0:
+            zr.next = 1
+            ng.next = 0
+        elif str(a)[0] == 'f' or int(a) < 1:
+            zr.next = 0
+            ng.next = 1
+        else:
+            zr.next = 0
+            ng.next = 0
 
     return instances()
 
@@ -54,26 +72,31 @@ def comparador(a, zr, ng, width):
 def zerador(z, a, y):
     @always_comb
     def comb():
-        pass
+        if z:
+            y.next = 0
+        else:
+            y.next = a
+
 
     return instances()
 
 
 @block
 def add(a, b, q):
+    
     @always_comb
     def comb():
-        q.next = a+b
+        q.next = a + b
 
     return instances()
 
 
 @block
 def inc(a, q):
+    
     @always_comb
     def comb():
         pass
-
     return instances()
 
 
@@ -84,8 +107,8 @@ def inc(a, q):
 
 @block
 def halfAdder(a, b, soma, carry):
-    s = Signal(bool())
-    c = Signal(bool())
+    s = Signal(bool(0))
+    c = Signal(bool(0))
 
     @always_comb
     def comb():
@@ -132,39 +155,13 @@ def adder(x, y, soma, carry):
 
 @block
 def addcla4(a, b, q):
-    a_ = [a(i) for i in range(4)]
-    b_ = [b(i) for i in range(4)]
-   
-    temp_carry = [Signal(bool(0)) for i in range(5)]
-    
-    k_list = [Signal(bool(0)) for i in range(4)]
-    p_list = [Signal(bool(0)) for i in range(4)]
-    g_list = [Signal(bool(0)) for i in range(4)]
-    faList = [None for i in range(4)] 
-    guarda_carry_full = [None for i in range(4)]
-    
-    for i in range(4):
-        faList[i] = fullAdder(a_[i], b_[i], temp_carry[i], q[i], guarda_carry_full[i])
 
     @always_comb
     def comb():
-        # q.next = a+b
-        for i in range(4):
-            k_list[i] = (not a_[i]) and (not b_[i])
-            g_list[i] = a_[i] and b_[i]
-            p_list[i] = ((not a_[i]) and b_[i]) and ((not b_[i]) and a_[i])
-
-        temp_carry[0] = 0
-        temp_carry[1] = g_list[0] or (p_list[0] and temp_carry[0])
-        temp_carry[2] = g_list[1] or (p_list[1] and g_list[0]) or (p_list[1] and p_list[0] and temp_carry[0])
-        temp_carry[3] = g_list[2] or (p_list[2] and g_list[1]) or (p_list[2] and p_list[1] and g_list[0]) or (p_list[2] and p_list[1] and p_list[0] and temp_carry[0])
-        temp_carry[4] = g_list[3] or (p_list[3] and g_list[2]) or (p_list[3] and p_list[2] and g_list[1]) or (p_list[3] and p_list[2] and p_list[1] and g_list[0]) or (p_list[3] and p_list[2] and p_list[1] and p_list[0] and temp_carry[0])
-
-        
-
-
+        pass
 
     return instances()
+
 
 @block
 def addcla16(a, b, q):
@@ -185,6 +182,10 @@ def ula_new(x, y, c, zr, ng, sr, sf, bcd, saida, width=16):
     pass
 
 
-@block
-def bcdAdder(x, y, z):
-    pass
+
+
+
+
+
+
+
