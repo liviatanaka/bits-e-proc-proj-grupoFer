@@ -55,9 +55,9 @@ def zerador(z, a, y):
     @always_comb
     def comb():
         if z:
-            y.next = a
-        else:
             y.next = 0
+        else:
+            y.next = a
         
 
     return instances()
