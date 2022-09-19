@@ -102,6 +102,14 @@ jobs:
       - name: test xor
         run: |
           pytest hw/test_ula.py -k xor
+      
+      - name: test addcla4
+        run: |
+          pytest hw/test_ula.py -k addcla4
+        
+      - name: test addcla16
+        run: |
+          pytest hw/test_ula.py -k addcla16
 
 
 

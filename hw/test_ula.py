@@ -181,3 +181,53 @@ def test_xor():
 
     sim = Simulation(xor16_1, stimulus)
     sim.run()
+
+@block
+def test_addcla4():
+    a = Signal(intbv(0)[4:])
+    b = Signal(intbv(0)[4:])
+    q = Signal(intbv(0)[4:])
+    carry_saida = Signal(bool(0))
+    carry_entrada = Signal(bool(0))
+    addcla4_1 = addcla4(a, b,carry_entrada, q, carry_saida)
+
+    @instance
+    def stimulus():
+        for i in range(256):
+            a.next = randrange(2**4 - 1)
+
+            b.next = randrange(2**4 - 1)
+            carry_entrada.next = 0
+        
+        yield delay(1)
+        print("%s %s %s" % (bin(a, 4), bin(b, 4), bin(q, 4)))
+        assert bin(q, 4)[-4:] == bin(a + b, 4)[-4:]
+
+    sim = Simulation(addcla4_1, stimulus)
+    sim.run()
+    return addcla4_1, stimulus
+
+
+@block
+def test_addcla16():
+    a = Signal(intbv(0)[16:])
+    b = Signal(intbv(0)[16:])
+    q = Signal(intbv(0)[16:])
+
+    addcla16_1 = addcla16(a, b, q)
+
+    @instance
+    def stimulus():
+        for i in range(256):
+            a.next = randrange(2**16 - 1)
+        
+            b.next = randrange(2**16 - 1)
+            
+        
+        yield delay(1)
+        print("%s %s %s" % (bin(a, 16), bin(b, 16), bin(q, 16)))
+        assert bin(q, 16)[-16:] == bin(a + b, 16)[-16:]
+
+    sim = Simulation(addcla16_1, stimulus)
+    sim.run()
+    return addcla16_1, stimulus
