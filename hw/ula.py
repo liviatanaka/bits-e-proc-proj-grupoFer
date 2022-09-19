@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
+from operator import concat
+from signal import Signals
 from myhdl import *
 from .components import *
-
 
 @block
 def ula(x, y, c, zr, ng, saida, width=16):
@@ -30,13 +31,20 @@ def ula(x, y, c, zr, ng, saida, width=16):
     return instances()
 
 
+
 # -z faz complemento de dois
 # ~z inverte bit a bit
 @block
 def inversor(z, a, y):
+    
+
     @always_comb
     def comb():
-        pass
+        if z == 1:
+            y.next = ~a
+        elif z == 0:
+            y.next = a
+           
 
     return instances()
 
@@ -44,6 +52,7 @@ def inversor(z, a, y):
 @block
 def comparador(a, zr, ng, width):
     # width insica o tamanho do vetor a
+    
     @always_comb
     def comb():
         if a == 0:
@@ -55,7 +64,6 @@ def comparador(a, zr, ng, width):
         else:
             zr.next = 0
             ng.next = 0
-            
 
     return instances()
 
@@ -68,13 +76,14 @@ def zerador(z, a, y):
             y.next = 0
         else:
             y.next = a
-        
+
 
     return instances()
 
 
 @block
 def add(a, b, q):
+    
     @always_comb
     def comb():
         pass    
@@ -84,10 +93,10 @@ def add(a, b, q):
 
 @block
 def inc(a, q):
+    
     @always_comb
     def comb():
         pass
-
     return instances()
 
 
@@ -98,8 +107,8 @@ def inc(a, q):
 
 @block
 def halfAdder(a, b, soma, carry):
-    s = Signal(bool())
-    c = Signal(bool())
+    s = Signal(bool(0))
+    c = Signal(bool(0))
 
     @always_comb
     def comb():
@@ -129,8 +138,10 @@ def fullAdder(a, b, c, soma, carry):
 
 @block
 def addcla4(a, b, q):
-    pass
-    
+    @always_comb
+    def comb():
+        pass
+        
     return instances()
         
 
