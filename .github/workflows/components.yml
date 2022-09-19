@@ -95,5 +95,8 @@ jobs:
         run: |
           pytest hw/test_ula.py -k inc
 
+      - name: test ula
+        run: |
+          pytest hw/test_ula.py -k ula
 
 
