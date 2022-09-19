@@ -24,10 +24,32 @@ def ula(x, y, c, zr, ng, saida, width=16):
     c_f = c(1)
     c_no = c(0)
 
+
+    # zeradores
+    zerador_x = zerador(c_zx, x, zx_out)
+    zerador_y = zerador(c_zy, y,zy_out)
+
+    # inversores
+    inversor_x = inversor(c_nx, zx_out, nx_out)
+    inversor_y = inversor(c_ny, zy_out, ny_out)
+
+    # mux
+    adicao = add(nx_out, ny_out, add_out)
+    xandy = x_and_y(nx_out, ny_out, and_out)
+
+    mux = mux2way(mux_out, and_out, add_out, c_f)
+
+    # inversor final
+    inversor_final = inversor(c_no, mux_out, no_out)
+
+    #comparador
+    comparador_ = comparador(no_out, zr, ng, width)
+
+    
     @always_comb
     def comb():
-        pass
-
+        saida.next = no_out
+        
     return instances()
 
 
@@ -83,10 +105,18 @@ def zerador(z, a, y):
 
 @block
 def add(a, b, q):
-    
+    soma = Signal(intbv(0))
+
     @always_comb
     def comb():
-        q.next = a + b
+        soma = a + b
+        if soma > 65535:
+            q.next = 65535
+        else:
+            q.next = soma
+    
+    print(soma)
+
 
     return instances()
 
@@ -99,6 +129,14 @@ def inc(a, q):
         q.next = a + 1
     return instances()
 
+
+@block
+def x_and_y(a, b, q):
+    @always_comb
+    def comb():
+        q.next = a & b
+
+    return instances()
 
 # ----------------------------------------------
 # Conceito B
