@@ -86,7 +86,7 @@ def add(a, b, q):
     
     @always_comb
     def comb():
-        pass    
+        q.next = a + b
 
     return instances()
 
@@ -96,7 +96,7 @@ def inc(a, q):
     
     @always_comb
     def comb():
-        pass
+        q.next = a + 1
     return instances()
 
 
@@ -124,26 +124,44 @@ def halfAdder(a, b, soma, carry):
 @block
 def fullAdder(a, b, c, soma, carry):
     s = [Signal(bool(0)) for i in range(3)]
-    haList = [None for i in range(2)]
+    haList = [None for i in range(2)]  
 
-    haList[0] = halfAdder(a, b, s[0], s[1])  # 2
-    haList[1] = halfAdder(c, s[0], soma, s[2])  # 3
+
+    haList[0] = halfAdder(a, b, s[0], s[1]) 
+    haList[1] = halfAdder(c, s[0], soma, s[2])
 
     @always_comb
     def comb():
-        carry.next = s[1] | s[2]  # 4
+        carry.next = s[1] | s[2]
 
     return instances()
 
+@block
+def adder(x, y, soma, carry):
+    n = len(x)
+    temp = [Signal(bool(0)) for i in range(n)]
+    faList = [None for i in range(n)]
+    faList[0] = halfAdder(x[0],y[0],soma[0], temp[0])
+    for i in range(1,n):
+        faList[i] = fullAdder(x[i], y[i], temp[i-1], soma[i],temp[i])
+
+
+    @always_comb
+    def comb():
+        carry.next = temp[n-1]
+        faList = [None for i in range(4)]
+
+    return instances()
 
 @block
 def addcla4(a, b, q):
+
     @always_comb
     def comb():
         pass
-        
+
     return instances()
-        
+
 
 @block
 def addcla16(a, b, q):
