@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from myhdl import *
+from .components import *
 
 
 @block
@@ -45,7 +46,16 @@ def comparador(a, zr, ng, width):
     # width insica o tamanho do vetor a
     @always_comb
     def comb():
-        pass
+        if a == 0:
+            zr.next = 1
+            ng.next = 0
+        elif str(a)[0] == 'f' or int(a) < 1:
+            zr.next = 0
+            ng.next = 1
+        else:
+            zr.next = 0
+            ng.next = 0
+            
 
     return instances()
 
@@ -67,7 +77,7 @@ def zerador(z, a, y):
 def add(a, b, q):
     @always_comb
     def comb():
-        pass
+        pass    
 
     return instances()
 
@@ -119,12 +129,10 @@ def fullAdder(a, b, c, soma, carry):
 
 @block
 def addcla4(a, b, q):
-    @always_comb
-    def comb():
-        pass
-
+    pass
+    
     return instances()
-
+        
 
 @block
 def addcla16(a, b, q):
@@ -145,6 +153,10 @@ def ula_new(x, y, c, zr, ng, sr, sf, bcd, saida, width=16):
     pass
 
 
-@block
-def bcdAdder(x, y, z):
-    pass
+
+
+
+
+
+
+

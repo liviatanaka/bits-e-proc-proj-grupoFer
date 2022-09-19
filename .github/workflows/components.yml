@@ -80,6 +80,10 @@ jobs:
           pytest hw/test_ula.py -k zerador
 
 
+      - name: test comparador
+        run: |
+          pytest hw/test_ula.py -k comparador
+
       
       
 
