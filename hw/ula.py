@@ -73,7 +73,7 @@ def zerador(z, a, y):
 def add(a, b, q):
     @always_comb
     def comb():
-        q.next = a + b
+        pass    
 
     return instances()
 
@@ -125,14 +125,7 @@ def fullAdder(a, b, c, soma, carry):
 
 @block
 def addcla4(a, b, q):
-    s = [Signal(bool(0)) for i in range(4)]
-    faList = [None for i in range(3)]
-
-    faList[0] = fullAdder(a[0], b[0], 0, s[0], s[1])
-    faList[1] = fullAdder(a[1], b[1], s[1], s[2], s[3])
-    faList[2] = fullAdder(a[2], b[2], s[3], s[4], s[5])
-    def comb():
-        q.next = concat(s[4], s[2], s[0])
+    pass
     
     return instances()
         
