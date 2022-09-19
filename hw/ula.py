@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
+from operator import concat
 from signal import Signals
 from myhdl import *
-
 
 @block
 def ula(x, y, c, zr, ng, saida, width=16):
@@ -23,39 +23,12 @@ def ula(x, y, c, zr, ng, saida, width=16):
     c_f = c(1)
     c_no = c(0)
 
-    # zeradores
-    zerador_x = zerador(c_zx, x, zx_out)
-    zerador_y = zerador(c_zy, y,zy_out)
-
-    # inversores
-    inversor_x = inversor(c_nx, zx_out, nx_out)
-    inversor_y = inversor(c_ny, zy_out, ny_out)
-
-    breakpoint()
-
-    # mux
-    print(f'nx-{nx_out}, ny{ny_out}' )
-    adicao = add(nx_out, ny_out, add_out)
-    
-    print(f'nx-{nx_out}, ny{ny_out}, {add_out}' )
-    xandy = x_and_y(nx_out, ny_out, and_out)
-    mux = mux2way(mux_out, and_out, add_out, c_f)
-    # def mux2way(q, a, b, sel):
-
-
-    # inversor final
-    inversor_final = inversor(c_no, mux_out, no_out)
-
-    #comparador
-    comparador_ = comparador(no_out, zr, ng, width)
-
-    
     @always_comb
     def comb():
-        saida.next = no_out
-        
+        ...
 
     return instances()
+
 
 
 # -z faz complemento de dois
@@ -80,16 +53,7 @@ def comparador(a, zr, ng, width):
     # width insica o tamanho do vetor a
     @always_comb
     def comb():
-        if a == 0:
-            zr.next = 1
-            ng.next = 0
-        elif a < 0:
-            zr.next = 0
-            ng.next = 1
-        else:
-            zr.next = 0
-            ng.next = 0
-            
+        ...
     return instances()
 
 
@@ -97,31 +61,26 @@ def comparador(a, zr, ng, width):
 def zerador(z, a, y):
     @always_comb
     def comb():
-        if z:
-            y.next = a
-        else:
-            y.next = 0
-        
+        ...
 
     return instances()
 
 
 @block
 def add(a, b, q):
+    
     @always_comb
     def comb():
-
-        q.next = a or b
-
+        ...
     return instances()
 
 
 @block
 def inc(a, q):
+    
     @always_comb
     def comb():
-        q.next = add(1, a)
-
+        ...
     return instances()
 
 
@@ -132,8 +91,8 @@ def inc(a, q):
 
 @block
 def halfAdder(a, b, soma, carry):
-    s = Signal(bool())
-    c = Signal(bool())
+    s = Signal(bool(0))
+    c = Signal(bool(0))
 
     @always_comb
     def comb():
@@ -165,7 +124,7 @@ def fullAdder(a, b, c, soma, carry):
 def addcla4(a, b, q):
     @always_comb
     def comb():
-        pass
+        ...
 
     return instances()
 
