@@ -96,7 +96,7 @@ def inc(a, q):
     
     @always_comb
     def comb():
-        pass
+        q.next = a + 1
     return instances()
 
 
