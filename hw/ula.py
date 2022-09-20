@@ -3,7 +3,7 @@
 from operator import concat
 from signal import Signals
 from myhdl import *
-from components import *
+from .components import *
 
 @block
 def ula(x, y, c, zr, ng, saida, width=16):
