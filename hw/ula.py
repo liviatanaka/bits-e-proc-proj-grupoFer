@@ -3,7 +3,7 @@
 from operator import concat
 from signal import Signals
 from myhdl import *
-from .components import *
+from components import *
 
 @block
 def ula(x, y, c, zr, ng, saida, width=16):
@@ -64,7 +64,7 @@ def inversor(z, a, y):
     def comb():
         if z == 1:
             y.next = ~a
-        elif z == 0:
+        else:
             y.next = a
            
 
@@ -72,7 +72,7 @@ def inversor(z, a, y):
 
 
 @block
-def comparador(a, zr, ng, width):
+def comparador(a, zr, ng, width=16):
     # width insica o tamanho do vetor a
     
     @always_comb
@@ -80,7 +80,7 @@ def comparador(a, zr, ng, width):
         if a == 0:
             zr.next = 1
             ng.next = 0
-        elif str(a)[0] == 'f' or int(a) < 1:
+        elif a > 32767:
             zr.next = 0
             ng.next = 1
         else:
@@ -104,8 +104,9 @@ def zerador(z, a, y):
 
 
 @block
-def add(a, b, q):
-    soma = Signal(intbv(0))
+def add(a, b, q, width=16):
+    #soma = Signal(intbv(0))
+    soma = Signal(intbv(0)[width:])
 
     @always_comb
     def comb():
@@ -115,7 +116,6 @@ def add(a, b, q):
         else:
             q.next = soma
     
-    print(soma)
 
 
     return instances()
