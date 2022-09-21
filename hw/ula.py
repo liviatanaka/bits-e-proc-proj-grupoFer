@@ -235,7 +235,6 @@ def addcla4(a, b, carry_entrada,  q, carry_saida):
             p_list[i] = int(bin(((not a_[i]) and b_[i]) or ((not b_[i]) and a_[i])))
 
         
-        print(p_list, 'AAaaa P LISTTTT TEJA CERTO')
         
         temp_carry[0] = int(bin(g_list[0] or (p_list[0] and carry_entrada)))
         temp_carry[1] = int(bin(
@@ -539,9 +538,29 @@ def addcla16(a, b, q):
 def ula_new(x, y, c, zr, ng, sr, sf, bcd, saida, width=16):
     pass
 
+DIG0 = tuple(i for i in range(10) for i in range(10))
+DIG1 = tuple(i for i in range(10) for _ in range(10))
+
 
 @block
 def bcdAdder(x, y, z):
-    pass
+    @always_comb
+    def comb():
+        print(x)
+        print(y)
+        print(x+y)
+        if x+y <9:
+            z.next = x+y
+        elif x+y >= 9:
+            b = Signal(intbv(DIG0[int(x+y)]))
+            a = Signal(intbv(DIG1[int(x+y)]))
+            print(bin(a))
+
+            z.next = concat(bin(a,4),bin(b,4))
+    
+
+
+    return instances()
+
 
 
