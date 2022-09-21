@@ -1,30 +1,35 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from myhdl import *
-
+from ula import ula 
 from components import *
 
 
 @block
 def toplevel(LEDR, SW, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, CLOCK_50, RESET_N):
-    sw_s = [SW(i) for i in range(10)]
+    sw_s = [SW(i) for i in range(8)]
     key_s = [KEY(i) for i in range(10)]
     ledr_s = [Signal(bool(0)) for i in range(10)]
+    x = Signal(intbv(0)[16:])
+    y = Signal(intbv(0)[16:])
 
-    bc0 = Signal(intbv(0)[4:])
-    bc1 = Signal(intbv(0)[4:])
-    hex0 = Signal(intbv(0)[7:])
-    hex1 = Signal(intbv(0)[7:])
-
-    ic1 = bin2bcd(SW, bc1, bc0)
-    ihex1 = bin2hex(hex1, bc1)
-    ihex0 = bin2hex(hex0, bc0)
-
-    # ---------------------------------------- #
+    # bc0 = Signal(intbv(0)[4:])
+    # bc1 = Signal(intbv(0)[4:])
+    # hex0 = Signal(intbv(0)[7:])
+    # hex1 = Signal(intbv(0)[7:])
+    
+    ula( x, y ,ledr_s ,sw_s, ledr_s[8], ledr_s[9])
+    
     @always_comb
     def comb():
-        for i in range(len(ledr_s)):
+        for i in range(len(8)):
             LEDR[i].next = ledr_s[i]
+
+    # ---------------------------------------- #
+    # @always_comb
+    # def comb():
+    #     for i in range(len(ledr_s)):
+    #         LEDR[i].next = ledr_s[i]
 
     return instances()
 
