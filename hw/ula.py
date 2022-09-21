@@ -62,13 +62,13 @@ def inversor(z, a, y):
         if z == 1:
             y.next = ~a
         else:
-            y.next = a    
-
+            y.next = a
+           
     return instances()
 
 
 @block
-def comparador(a, zr, ng, width):
+def comparador(a, zr, ng, width=16):
     # width insica o tamanho do vetor a
     
     @always_comb
@@ -99,8 +99,9 @@ def zerador(z, a, y):
 
 
 @block
-def add(a, b, q):
-    soma = Signal(intbv(0))
+def add(a, b, q, width=16):
+    #soma = Signal(intbv(0))
+    soma = Signal(intbv(0)[width:])
 
     @always_comb
     def comb():
@@ -110,7 +111,6 @@ def add(a, b, q):
         else:
             q.next = soma
     
-    print(soma)
 
 
     return instances()

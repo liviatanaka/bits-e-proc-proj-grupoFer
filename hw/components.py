@@ -95,12 +95,15 @@ def mux2way(q, a, b, sel):
  
    Mux entre a e b, sel é o seletor
    """
-   foo = Signal(intbv(0))
  
    @always_comb
    def comb():
-       lista = [a,b]
-       q.next = lista[sel]
+       #lista = [a,b]
+       if sel == 0:
+          q.next = a 
+       else:
+          q.next = b
+       #q.next = lista[sel]
  
    return comb
  
