@@ -71,7 +71,7 @@ def test_barrelShifter():
     a = Signal(intbv(8))
     size = Signal(intbv(0))
     dir = Signal(bool(0))
-    barrelShifter_1 = barrelShifter(a, dir, size, q)
+    barrelShifter_1 = barrelShifter(a, dir, size, 1, q)
 
     @instance
     def stimulus():
