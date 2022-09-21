@@ -1,25 +1,10 @@
 #!/usr/bin/env python3
 
+from operator import concat
+from signal import Signals
 from myhdl import *
+from .components import *
 
-@block
-def mux2way(q, a, b, sel):
-   """
-   q: 16 bits
-   a: 16 bits
-   b: 16 bits
-   sel: 2 bits
- 
-   Mux entre a e b, sel é o seletor
-   """
-   foo = Signal(intbv(0))
- 
-   @always_comb
-   def comb():
-       lista = [a,b]
-       q.next = lista[sel]
- 
-   return comb
 
 @block
 def ula(x, y, c, zr, ng, saida, width=16):
@@ -48,16 +33,11 @@ def ula(x, y, c, zr, ng, saida, width=16):
     inversor_x = inversor(c_nx, zx_out, nx_out)
     inversor_y = inversor(c_ny, zy_out, ny_out)
 
-
     # mux
-    print(f'nx-{nx_out}, ny{ny_out}' )
     adicao = add(nx_out, ny_out, add_out)
-    
-    print(f'nx-{nx_out}, ny{ny_out}, {add_out}' )
     xandy = x_and_y(nx_out, ny_out, and_out)
-    mux = mux2way(mux_out, and_out, add_out, c_f)
-    # def mux2way(q, a, b, sel):
 
+    mux = mux2way(mux_out, and_out, add_out, c_f)
 
     # inversor final
     inversor_final = inversor(c_no, mux_out, no_out)
@@ -70,37 +50,33 @@ def ula(x, y, c, zr, ng, saida, width=16):
     def comb():
         saida.next = no_out
         
-
     return instances()
 
-
-# -z faz complemento de dois   
-# ~z inverte bit a bit
 # -z faz complemento de dois
 # ~z inverte bit a bit
 @block
 def inversor(z, a, y):
-    # z = Signal(bool(0))
 
     @always_comb
     def comb():
         if z == 1:
             y.next = ~a
         else:
-            y.next = a    
-
+            y.next = a
+           
     return instances()
 
 
 @block
-def comparador(a, zr, ng, width):
+def comparador(a, zr, ng, width=16):
     # width insica o tamanho do vetor a
+    
     @always_comb
     def comb():
         if a == 0:
             zr.next = 1
             ng.next = 0
-        elif a < 0:
+        elif a > 32767:
             zr.next = 0
             ng.next = 1
         else:
@@ -118,39 +94,34 @@ def zerador(z, a, y):
             y.next = 0
         else:
             y.next = a
-        
 
     return instances()
 
 
 @block
-def add(a, b, q):
-
-    soma = Signal(intbv(0))
+def add(a, b, q, width=16):
+    soma = Signal(intbv(0)[width:])
 
     @always_comb
     def comb():
- 
-        print('adicao')
-        print(a)
-        print(int(b))
         soma = a + b
-        q.next = soma
-    
-    print(soma)
-
+        if soma > 65535:
+            q.next = 65535
+        else:
+            q.next = soma
 
     return instances()
 
 
 @block
 def inc(a, q):
+    
     @always_comb
     def comb():
-        q.next = a +1
-        print('pelo visto sim')
+        q.next = a + 1
 
     return instances()
+
 
 @block
 def x_and_y(a, b, q):
@@ -160,7 +131,6 @@ def x_and_y(a, b, q):
 
     return instances()
 
-
 # ----------------------------------------------
 # Conceito B
 # ----------------------------------------------
@@ -168,8 +138,8 @@ def x_and_y(a, b, q):
 
 @block
 def halfAdder(a, b, soma, carry):
-    s = Signal(bool())
-    c = Signal(bool())
+    s = Signal(bool(0))
+    c = Signal(bool(0))
 
     @always_comb
     def comb():
@@ -267,7 +237,9 @@ def addcla4(a, b, carry_entrada,  q, carry_saida):
 
         carry_saida.next = temp_carry[3]
 
+
     return instances()
+
 
 @block
 def addcla16(a, b, q):
@@ -462,81 +434,67 @@ def addcla16(a, b, q):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # faList = [0 for i in range(4)]
-    # temp_carry = [0 for i in range(4)]
-    # a1_ = [a(i) for i in range(3,-1,-1)]
-    # a1 = ConcatSignal(*a1_)
-    # a2_ = [a(i) for i in range(7,3,-1)]
-    # a2 = ConcatSignal(*a2_)
-    # a3_ = [a(i) for i in range(11,7,-1)]
-    # a3 = ConcatSignal(*a3_)
-    # a4_ = [a(i) for i in range(15,11,-1)]
-    # a4 = ConcatSignal(*a4_)
-    # # siggg = sig(left, right)
-    # b1_ = [b(i) for i in range(3,-1,-1)]
-    # b1 = ConcatSignal(*b1_)
-    # b2_ = [a(i) for i in range(7,3,-1)]
-    # b2 = ConcatSignal(*b2_)
-    # b3_ = [b(i) for i in range(11,7,-1)]
-    # b3 = ConcatSignal(*b3_)
-    # b4_ = [b(i) for i in range(15,11,-1)]
-    # b4 = ConcatSignal(*b4_)
-    # x = [0 for i in range(4)]
-    # y = [0 for i in range(4)]
-    # c = [0 for i in range(4)]
-    # d = [0 for i in range(4)]
-    
-    
-    # @always_comb
-    # def comb():
-
-        
-    #     faList[0] = addcla4(a1, b1,0,x,temp_carry[0])
-        
-    #     faList[1] = addcla4(a2, b2,temp_carry[0], y, temp_carry[1])
-    #     print(x, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOXOXOXOXOXOXOXOXOXOOXOXXOXOOXXOXOXOXOXOXOXOOXXOXOXOX')
-
-    #     faList[2] = addcla4(a3, b3,temp_carry[1], c, temp_carry[2])
-    #     faList[3] = addcla4(a4, b4,temp_carry[2], d, temp_carry[3])
-
-    #     for i in range(4):
-    #         q.next[i] = x[i]
-        
-    #     for i in range(4,8):
-    #         q.next[i] = y[i-4]
-
-    #     for i in range(8,12):
-    #         q.next[i] = c[i-8]
-    #     for i in range(12,16):
-    #         q.next[i] = d[i-12]
-
-    # return instances()
-
-
 # ----------------------------------------------
 # Conceito A
 # ----------------------------------------------
 
 
 @block
-def ula_new(x, y, c, zr, ng, sr, sf, bcd, saida, width=16):
-    pass
+def ula_new(x, y, c, zr, ng, sr, sf, m, saida, width=16):
+    zx_out = Signal(intbv(0)[width:])
+    nx_out = Signal(intbv(0)[width:])
+    zy_out = Signal(intbv(0)[width:])
+    ny_out = Signal(intbv(0)[width:])
+    and_out = Signal(intbv(0)[width:])
+    add_out = Signal(intbv(0)[width:])
+    mux_out = Signal(intbv(0)[width:])
+    no_out = Signal(intbv(0)[width:])
+
+    # novos
+    shift_r_out = Signal(intbv(0)[width:])
+    shift_l_out = Signal(intbv(0)[width:])
+    add_cla_out = Signal(intbv(0)[width:])
+    xor_out = Signal(intbv(0)[width:])
+    mux2_out = Signal(intbv(0)[width:])
+    mux_final_out = Signal(intbv(0)[width:])
+
+    c_zx = c(5)
+    c_nx = c(4)
+    c_zy = c(3)
+    c_ny = c(2)
+    c_f = c(1)
+    c_no = c(0)
+
+    shifter_r = barrelShifter(x, 0, y, sr, shift_r_out)
+    shifter_l = barrelShifter(shift_r_out, 1, y, sf, shift_l_out)
+
+    # zeradores
+    zerador_x = zerador(c_zx, shift_l_out, zx_out)
+    zerador_y = zerador(c_zy, y, zy_out)
+
+    # inversores
+    inversor_x = inversor(c_nx, zx_out, nx_out)
+    inversor_y = inversor(c_ny, zy_out, ny_out)
+
+    # mux's
+    adicao_normal = add(nx_out, ny_out, add_out)
+    adicao_cla = addcla16(nx_out, ny_out, add_cla_out)
+    xandy = x_and_y(nx_out, ny_out, and_out)
+    x_xor_y = xor(nx_out, ny_out, xor_out)
+
+    mux_final = mux4way(mux_final_out, add_out, add_cla_out, and_out, xor_out, m)
+
+    # inversor final
+    inversor_final = inversor(c_no, mux_final_out, no_out)
+
+    #comparador
+    comparador_ = comparador(no_out, zr, ng, width)
+
+    
+    @always_comb
+    def comb():
+        saida.next = no_out
+
 
 DIG0 = tuple(i for i in range(10) for i in range(10))
 DIG1 = tuple(i for i in range(10) for _ in range(10))
@@ -562,5 +520,12 @@ def bcdAdder(x, y, z):
 
     return instances()
 
-
+@block
+def xor(a, b, q):
+    
+    @always_comb
+    def comb():
+        q.next = a ^ b
+    
+    return instances()
 
