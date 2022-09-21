@@ -60,7 +60,7 @@ def orNway(a, q):
  
  
 @block
-def barrelShifter(a, dir, size, q):
+def barrelShifter(a, dir, size, en, q):
     """
     a: 16 bits
     dir: 1 bit
@@ -81,7 +81,11 @@ def barrelShifter(a, dir, size, q):
             saida = a << size
         else:
             saida = a >> size
-        q.next = saida
+        
+        if en == 1:
+            q.next = saida
+        else:
+            q.next = a
 
     return comb
  
@@ -124,14 +128,15 @@ def mux4way(q, a, b, c, d, sel):
  
    @always_comb
    def comb():
-       if sel == 0:
-        q.next =a
-       elif sel == 1:
-        q.next = 1
-        
-       lista = [a,b,c,d]
-       q.next = lista[sel]
- 
+        if sel == 0:
+            q.next = a
+        elif sel == 1:
+            q.next = b
+        elif sel == 2:
+            q.next = c
+        else:
+            q.next = d
+
    return comb
  
  
