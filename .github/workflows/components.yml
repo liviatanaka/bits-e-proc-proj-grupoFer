@@ -109,7 +109,7 @@ jobs:
       
       - name: test bcdAdder
         run: |
-          pytest hw/test_bcdAdder -k bcdAdder
+          pytest hw/test_ula.py -k bcdAdder
 
 
 
