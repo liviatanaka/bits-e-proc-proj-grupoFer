@@ -107,7 +107,7 @@ jobs:
         run: |
           pytest hw/test_ula.py -k new_ula
       
-      - name: test abcAdder
+      - name: test bcdAdder
         run: |
           pytest hw/test_bcdAdder -k bcdAdder
 
