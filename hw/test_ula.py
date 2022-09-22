@@ -230,3 +230,26 @@ def test_new_ula():
     sim = Simulation(ula_1, stimulus)
     sim.run()
 
+@block
+def test_bcdAdder():
+    a = Signal(intbv(0)[4:])
+    b = Signal(intbv(0)[4:])
+    z = Signal(intbv(0)[9:])
+ 
+    addcla4_1 = bcdAdder(a, b,z)
+ 
+    @instance
+    def stimulus():
+        a.next = 3
+        b.next = 7
+       
+        yield delay(1)
+        # assert int(bin(z, 8)[7:4:-1]) + int(bin(z, 8)[3:0:-1])*10 == int(bin(a + b, 4)[-4:])
+        if a+b <9:
+            assert (bin(z, 4)[-4:]) == (bin(a + b, 4)[-4:])
+        else:
+            assert int(z[7:4:-1])*10 + int(z[3:0:-1]) == (a + b)
+ 
+    sim = Simulation(addcla4_1, stimulus)
+    sim.run()
+    return addcla4_1, stimulus
