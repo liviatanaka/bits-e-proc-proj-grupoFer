@@ -494,6 +494,7 @@ def ula_new(x, y, c, zr, ng, sr, sf, m, saida, width=16):
     @always_comb
     def comb():
         saida.next = no_out
+    return instances()
 
 
 DIG0 = tuple(i for i in range(10) for i in range(10))
