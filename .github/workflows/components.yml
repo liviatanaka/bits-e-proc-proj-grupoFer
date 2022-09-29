@@ -102,6 +102,10 @@ jobs:
       - name: test xor
         run: |
           pytest hw/test_ula.py -k xor
+      
+      - name: test new_ula
+        run: |
+          pytest hw/test_ula.py -k new_ula
 
 
 

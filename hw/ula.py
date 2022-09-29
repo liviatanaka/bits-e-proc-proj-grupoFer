@@ -5,6 +5,7 @@ from signal import Signals
 from myhdl import *
 # from .components import *
 
+
 @block
 def ula(x, y, c, zr, ng, saida, width=16):
 
@@ -23,7 +24,6 @@ def ula(x, y, c, zr, ng, saida, width=16):
     c_ny = c(2)
     c_f = c(1)
     c_no = c(0)
-
 
     # zeradores
     zerador_x = zerador(c_zx, x, zx_out)
@@ -52,27 +52,23 @@ def ula(x, y, c, zr, ng, saida, width=16):
         
     return instances()
 
-
-
 # -z faz complemento de dois
 # ~z inverte bit a bit
 @block
 def inversor(z, a, y):
-    
 
     @always_comb
     def comb():
         if z == 1:
             y.next = ~a
-        elif z == 0:
+        else:
             y.next = a
            
-
     return instances()
 
 
 @block
-def comparador(a, zr, ng, width):
+def comparador(a, zr, ng, width=16):
     # width insica o tamanho do vetor a
     
     @always_comb
@@ -80,7 +76,7 @@ def comparador(a, zr, ng, width):
         if a == 0:
             zr.next = 1
             ng.next = 0
-        elif str(a)[0] == 'f' or int(a) < 1:
+        elif a > 32767:
             zr.next = 0
             ng.next = 1
         else:
@@ -99,13 +95,12 @@ def zerador(z, a, y):
         else:
             y.next = a
 
-
     return instances()
 
 
 @block
-def add(a, b, q):
-    soma = Signal(intbv(0))
+def add(a, b, q, width=16):
+    soma = Signal(intbv(0)[width:])
 
     @always_comb
     def comb():
@@ -114,9 +109,6 @@ def add(a, b, q):
             q.next = 65535
         else:
             q.next = soma
-    
-    print(soma)
-
 
     return instances()
 
@@ -127,6 +119,7 @@ def inc(a, q):
     @always_comb
     def comb():
         q.next = a + 1
+
     return instances()
 
 
@@ -192,22 +185,254 @@ def adder(x, y, soma, carry):
     return instances()
 
 @block
-def addcla4(a, b, q):
-
+def addcla4(a, b, carry_entrada,  q, carry_saida):
+    print(a[0])
+    a_ = [a(i) for i in range(4)]
+    b_ = [b(i) for i in range(4)]
     @always_comb
     def comb():
-        pass
+        k_list = [0 for i in range(4)]
+        p_list = [0 for i in range(4)]
+        g_list = [0 for i in range(4)]
+        faList = [0 for i in range(4)]
+        
+        temp_carry = [0 for i in range(4)]
+
+
+        for i in range(4):
+            k_list[i] = int(bin((not a_[i]) and (not b_[i])))
+            g_list[i] = int(bin(a_[i] and b_[i]))
+            p_list[i] = int(bin(((not a_[i]) and b_[i]) or ((not b_[i]) and a_[i])))
+
+        
+        print(p_list, 'AAaaa P LISTTTT TEJA CERTO')
+        
+        temp_carry[0] = int(bin(g_list[0] or (p_list[0] and carry_entrada)))
+        temp_carry[1] = int(bin(
+            g_list[1]
+            or (p_list[1] and g_list[0])
+            or (p_list[1] and p_list[0] and carry_entrada)
+        ))
+        
+        temp_carry[2] = int(bin(
+            g_list[2]
+            or (p_list[2] and g_list[1])
+            or (p_list[2] and p_list[1] and g_list[0])
+            or (p_list[2] and p_list[1] and p_list[0] and carry_entrada)
+        ))
+        temp_carry[3] = int(bin(
+            g_list[3]
+            or (p_list[3] and g_list[2])
+            or (p_list[3] and p_list[2] and g_list[1])
+            or (p_list[3] and p_list[2] and p_list[1] and g_list[0])
+            or (p_list[3] and p_list[2] and p_list[1] and p_list[0] and carry_entrada)
+        ))
+        q.next[0] = ((not p_list[0]) and (carry_entrada)) or (
+                (p_list[0]) and (not carry_entrada)
+            )
+
+        for i in range(1,4):
+            q.next[i] = ((not p_list[i]) and (temp_carry[i-1])) or (
+                (p_list[i]) and (not temp_carry[i-1])
+            )
+
+        carry_saida.next = temp_carry[3]
+
 
     return instances()
 
 
 @block
 def addcla16(a, b, q):
+
+
+
+    a_ = [a(i) for i in range(16)]
+    b_ = [b(i) for i in range(16)]
+
+
     @always_comb
     def comb():
-        pass
+        k_list = [0 for i in range(4)]
+        p_list = [0 for i in range(4)]
+        g_list = [0 for i in range(4)]
+        faList = [0 for i in range(16)]
+        
+        k_list1 = [0 for i in range(4)]
+        p_list1 = [0 for i in range(4)]
+        g_list1 = [0 for i in range(4)]
+
+        k_list2 = [0 for i in range(4)]
+        p_list2 = [0 for i in range(4)]
+        g_list2 = [0 for i in range(4)]
+        
+        k_list3 = [0 for i in range(4)]
+        p_list3 = [0 for i in range(4)]
+        g_list3 = [0 for i in range(4)]
+        temp_carry = [0 for i in range(16)]
+
+        carry_entrada = 0
+        for i in range(4):
+            k_list[i] = int(bin((not a_[i]) and (not b_[i])))
+            g_list[i] = int(bin(a_[i] and b_[i]))
+            p_list[i] = int(bin(((not a_[i]) and b_[i]) or ((not b_[i]) and a_[i])))
+            
+            k_list1[i] = int(bin((not a_[i+4]) and (not b_[i+4])))
+            g_list1[i] = int(bin(a_[i+4] and b_[i+4]))
+            p_list1[i] = int(bin(((not a_[i+4]) and b_[i+4]) or ((not b_[i+4]) and a_[i+4])))
+
+            k_list2[i] = int(bin((not a_[i+8]) and (not b_[i+8])))
+            g_list2[i] = int(bin(a_[i+8] and b_[i+8]))
+            p_list2[i] = int(bin(((not a_[i+8]) and b_[i+8]) or ((not b_[i+8]) and a_[i+8])))
+
+            k_list3[i] = int(bin((not a_[i+12]) and (not b_[i+12])))
+            g_list3[i] = int(bin(a_[i+12] and b_[i+12]))
+            p_list3[i] = int(bin(((not a_[i+12]) and b_[i+12]) or ((not b_[i+12]) and a_[i+12])))
+
+
+
+
+        
+        temp_carry[0] = int(bin(g_list[0] or (p_list[0] and carry_entrada)))
+        temp_carry[1] = int(bin(
+            g_list[1]
+            or (p_list[1] and g_list[0])
+            or (p_list[1] and p_list[0] and carry_entrada)
+        ))
+        
+        temp_carry[2] = int(bin(
+            g_list[2]
+            or (p_list[2] and g_list[1])
+            or (p_list[2] and p_list[1] and g_list[0])
+            or (p_list[2] and p_list[1] and p_list[0] and carry_entrada)
+        ))
+        temp_carry[3] = int(bin(
+            g_list[3]
+            or (p_list[3] and g_list[2])
+            or (p_list[3] and p_list[2] and g_list[1])
+            or (p_list[3] and p_list[2] and p_list[1] and g_list[0])
+            or (p_list[3] and p_list[2] and p_list[1] and p_list[0] and carry_entrada)
+        ))
+        q.next[0] = ((not p_list[0]) and (carry_entrada)) or (
+                (p_list[0]) and (not carry_entrada)
+            )
+
+        for i in range(1,4):
+            q.next[i] = ((not p_list[i]) and (temp_carry[i-1])) or (
+                (p_list[i]) and (not temp_carry[i-1])
+            )
+
+        carry_entrada2 = temp_carry[3]
+
+###########################################################   somatorio 2
+
+        temp_carry[4] = int(bin(g_list1[0] or (p_list1[0] and carry_entrada2)))
+        temp_carry[5] = int(bin(
+            g_list1[1]
+            or (p_list1[1] and g_list1[0])
+            or (p_list1[1] and p_list1[0] and carry_entrada2)
+        ))
+        
+        temp_carry[6] = int(bin(
+            g_list1[2]
+            or (p_list1[2] and g_list1[1])
+            or (p_list1[2] and p_list1[1] and g_list1[0])
+            or (p_list1[2] and p_list1[1] and p_list1[0] and carry_entrada2)
+        ))
+        temp_carry[7] = int(bin(
+            g_list1[3]
+            or (p_list1[3] and g_list1[2])
+            or (p_list1[3] and p_list1[2] and g_list1[1])
+            or (p_list1[3] and p_list1[2] and p_list1[1] and g_list1[0])
+            or (p_list1[3] and p_list1[2] and p_list1[1] and p_list1[0] and carry_entrada2)
+        ))
+
+        q.next[4] = ((not p_list1[0]) and (carry_entrada2)) or (
+                (p_list1[0]) and (not carry_entrada2)
+            )
+       
+        for i in range(5,8):
+            q.next[i] = ((not p_list1[i-4]) and (temp_carry[i-1])) or (
+                (p_list1[i-4]) and (not temp_carry[i-1])
+            )
+
+        carry_entrada3 = temp_carry[7]
+
+
+
+        #####################################################################3 SOMATORIO 3
+
+        temp_carry[8] = int(bin(g_list2[0] or (p_list2[0] and carry_entrada3)))
+        temp_carry[9] = int(bin(
+            g_list2[1]
+            or (p_list2[1] and g_list2[0])
+            or (p_list2[1] and p_list2[0] and carry_entrada3)
+        ))
+        
+        temp_carry[10] = int(bin(
+            g_list1[2]
+            or (p_list2[2] and g_list2[1])
+            or (p_list2[2] and p_list2[1] and g_list2[0])
+            or (p_list2[2] and p_list2[1] and p_list2[0] and carry_entrada3)
+        ))
+        temp_carry[11] = int(bin(
+            g_list2[3]
+            or (p_list2[3] and g_list2[2])
+            or (p_list2[3] and p_list2[2] and g_list2[1])
+            or (p_list2[3] and p_list2[2] and p_list2[1] and g_list2[0])
+            or (p_list2[3] and p_list2[2] and p_list2[1] and p_list2[0] and carry_entrada3)
+        ))
+
+        q.next[8] = ((not p_list2[0]) and (carry_entrada3)) or (
+                (p_list2[0]) and (not carry_entrada3)
+            )
+      
+        for i in range(9,12):
+            q.next[i] = ((not p_list2[i-8]) and (temp_carry[i-1])) or (
+                (p_list2[i-8]) and (not temp_carry[i-1])
+            )
+
+        carry_entrada4 = temp_carry[11]
+
+
+
+################################### ultimo somador
+
+        temp_carry[12] = int(bin(g_list3[0] or (p_list3[0] and carry_entrada4)))
+        temp_carry[13] = int(bin(
+            g_list2[1]
+            or (p_list3[1] and g_list3[0])
+            or (p_list3[1] and p_list3[0] and carry_entrada4)
+        ))
+        
+        temp_carry[14] = int(bin(
+            g_list3[2]
+            or (p_list3[2] and g_list3[1])
+            or (p_list3[2] and p_list3[1] and g_list3[0])
+            or (p_list3[2] and p_list3[1] and p_list3[0] and carry_entrada4)
+        ))
+        temp_carry[15] = int(bin(
+            g_list2[3]
+            or (p_list3[3] and g_list3[2])
+            or (p_list3[3] and p_list3[2] and g_list3[1])
+            or (p_list3[3] and p_list3[2] and p_list3[1] and g_list3[0])
+            or (p_list3[3] and p_list3[2] and p_list3[1] and p_list3[0] and carry_entrada4)
+        ))
+
+        q.next[12] = ((not p_list3[0]) and (carry_entrada4)) or (
+                (p_list3[0]) and (not carry_entrada4)
+            )
+        
+        for i in range(13,16):
+            q.next[i] = ((not p_list3[i-12]) and (temp_carry[i-1])) or (
+                (p_list3[i-12]) and (not temp_carry[i-1])
+            )
+
+
+
 
     return instances()
+
 
 
 # ----------------------------------------------
@@ -216,7 +441,7 @@ def addcla16(a, b, q):
 
 
 @block
-def ula_new(x, y, c, zr, ng, sr, sf, m, bcd, saida, width=16):
+def ula_new(x, y, c, zr, ng, sr, sf, m, saida, width=16):
     zx_out = Signal(intbv(0)[width:])
     nx_out = Signal(intbv(0)[width:])
     zy_out = Signal(intbv(0)[width:])
@@ -234,7 +459,6 @@ def ula_new(x, y, c, zr, ng, sr, sf, m, bcd, saida, width=16):
     mux2_out = Signal(intbv(0)[width:])
     mux_final_out = Signal(intbv(0)[width:])
 
-
     c_zx = c(5)
     c_nx = c(4)
     c_zy = c(3)
@@ -242,34 +466,24 @@ def ula_new(x, y, c, zr, ng, sr, sf, m, bcd, saida, width=16):
     c_f = c(1)
     c_no = c(0)
 
-    # shifta
-    if sr == 1:
-        shifter_r = barrelShifter(x, 0, y, shift_r_out)
-    
-    if sf == 1:
-        shifter_l = barrelShifter(shift_r_out, 1, y, shift_l_out)
-    
+    shifter_r = barrelShifter(x, 0, y, sr, shift_r_out)
+    shifter_l = barrelShifter(shift_r_out, 1, y, sf, shift_l_out)
 
     # zeradores
     zerador_x = zerador(c_zx, shift_l_out, zx_out)
-    zerador_y = zerador(c_zy, y,zy_out)
+    zerador_y = zerador(c_zy, y, zy_out)
 
     # inversores
     inversor_x = inversor(c_nx, zx_out, nx_out)
     inversor_y = inversor(c_ny, zy_out, ny_out)
 
     # mux's
-
     adicao_normal = add(nx_out, ny_out, add_out)
     adicao_cla = addcla16(nx_out, ny_out, add_cla_out)
-    
     xandy = x_and_y(nx_out, ny_out, and_out)
     x_xor_y = xor(nx_out, ny_out, xor_out)
 
-    mux1 = mux2way(mux_out, and_out, add_out, c_f)
-    mux2 = mux2way(mux2_out, xor_out, add_cla_out, c_f)
-
-    mux_final = mux2way(mux_final_out, mux_out, mux_out, m)
+    mux_final = mux4way(mux_final_out, add_out, add_cla_out, and_out, xor_out, m)
 
     # inversor final
     inversor_final = inversor(c_no, mux_final_out, no_out)
@@ -281,7 +495,7 @@ def ula_new(x, y, c, zr, ng, sr, sf, m, bcd, saida, width=16):
     @always_comb
     def comb():
         saida.next = no_out
-
+        
     return instances()
 
 @block
@@ -293,12 +507,4 @@ def xor(a, b, q):
         q.next = a ^ b
     
     return instances()
-
-
-
-
-
-
-
-
 

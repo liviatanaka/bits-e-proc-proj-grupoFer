@@ -181,3 +181,52 @@ def test_xor():
 
     sim = Simulation(xor16_1, stimulus)
     sim.run()
+
+def test_new_ula():
+    x = Signal(intbv(1)[16:])
+    y = Signal(intbv(2)[16:])
+    saida = Signal(intbv(0)[16:])
+    control = Signal(intbv(0))
+    zr = Signal(bool(0))
+    ng = Signal(bool(0))
+
+    sr = Signal(intbv(0))
+    sf = Signal(intbv(0))
+    m = Signal(intbv(0))
+    ula_1 = ula_new(x, y, control, zr, ng, sr, sf, m, saida, width=16)
+    # (x, y, c, zr, ng, sr, sf, m, saida, width=16)
+
+    @instance
+    def stimulus():
+    
+        control.next = 0b001010
+        sf.next = 0
+        sr.next= 1
+        m.next = 0
+        
+        yield delay(10)
+        assert saida == x << y
+
+        control.next = 0b001010
+
+        sf.next = 0b1
+        sr.next= 0b0
+        m.next = 0b00
+        
+        yield delay(10)
+        assert saida == x >> y
+
+        control.next = 0b000000
+
+        sf.next = 0
+        sr.next= 0
+        m.next = 3
+        
+        yield delay(10)
+        assert saida == x ^ y
+
+
+        
+    sim = Simulation(ula_1, stimulus)
+    sim.run()
+
