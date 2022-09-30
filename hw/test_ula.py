@@ -166,6 +166,7 @@ def test_add():
 
     sim = Simulation(add16_1, stimulus)
     sim.run()
+<<<<<<< HEAD
 
 def test_xor():
     q, a, b = [Signal(intbv(0)) for i in range(3)]
@@ -303,3 +304,5 @@ def test_addcla16():
     sim = Simulation(addcla16_1, stimulus)
     sim.run()
     return addcla16_1, stimulus
+=======
+>>>>>>> upstream/main
