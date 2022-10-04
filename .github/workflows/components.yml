@@ -133,7 +133,7 @@ jobs:
         run: |
           pytest hw/test_seq.py -k registerN
       
-      - name: test registerN
+      - name: test pc
         run: |
           pytest hw/test_seq.py -k pc
 
