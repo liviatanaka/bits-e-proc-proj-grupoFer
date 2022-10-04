@@ -9,25 +9,27 @@ from ula import *
 @block
 def toplevel(LEDR, SW, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, CLOCK_50, RESET_N):
 <<<<<<< HEAD
+=======
     sw_s = [SW(i) for i in range(8)]
     key_s = [KEY(i) for i in range(10)]
     ledr_s = [Signal(bool(0)) for i in range(10)]
     x = Signal(intbv(0)[16:])
     y = Signal(intbv(0)[16:])
 
-=======
+>>>>>>> 35265cd7f6f708a4dc181e7d1f302fa453b11344
     #sw_s = [SW(i) for i in range(10)]
     #key_s = [KEY(i) for i in range(10)]
     ledr_s = [Signal(bool(0)) for i in range(10)]
 
 
     # B - Logica combinacional
->>>>>>> d0c84727b3788a8de4f9d6c1231f56f6f98452cf
     # bc0 = Signal(intbv(0)[4:])
     # bc1 = Signal(intbv(0)[4:])
     # hex0 = Signal(intbv(0)[7:])
     # hex1 = Signal(intbv(0)[7:])
 <<<<<<< HEAD
+=======
+
     
     ula( x, y ,ledr_s ,sw_s, ledr_s[8], ledr_s[9])
     
@@ -35,7 +37,8 @@ def toplevel(LEDR, SW, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, CLOCK_50, RESET_
     def comb():
         for i in range(len(8)):
             LEDR[i].next = ledr_s[i]
-=======
+
+>>>>>>> 35265cd7f6f708a4dc181e7d1f302fa453b11344
 
     # ic1 = bin2bcd(SW, bc1, bc0)
     # ihex1 = bin2hex(hex1, bc1)
@@ -70,7 +73,6 @@ def toplevel(LEDR, SW, KEY, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, CLOCK_50, RESET_
             LEDR[i].next = saida[i]
         LEDR[8].next = zr
         LEDR[9].next = ng
->>>>>>> d0c84727b3788a8de4f9d6c1231f56f6f98452cf
 
     # ---------------------------------------- #
     # @always_comb
