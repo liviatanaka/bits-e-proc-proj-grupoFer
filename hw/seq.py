@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from myhdl import *
+from .components import *
 
 
 @block
@@ -15,16 +16,38 @@ def ram(dout, din, addr, we, clk, rst, width, depth):
 
     return instances()
 
+@block
+def inc(q, a):
+  
+    @always_comb
+    def comb():
+        q.next = a + 1
+
+    return instances()
 
 @block
 def pc(increment, load, i, output, width, clk, rst):
     regIn = Signal(modbv(0)[width:])
     regOut = Signal(modbv(0)[width:])
     regLoad = Signal(bool(0))
+    incOut = Signal(modbv(0)[width:])
+    muxOut1 = Signal(modbv(0)[width:])
+    muxOut2 = Signal(modbv(0)[width:])
+
+    inc16 = inc(incOut, regOut)
+    
+    mux1 = mux2way(muxOut1, regOut, incOut, increment)
+    mux2 = mux2way(muxOut2, muxOut1, False, rst)
+    mux3 = mux2way(regIn, muxOut2, i, load)
+
+
+    registrador = registerN(regIn, regLoad, regOut, width, clk, rst)
 
     @always_comb
     def comb():
-        pass
+        regLoad.next = increment or rst or load
+        output.next = regOut
+    
 
     return instances()
 

@@ -29,95 +29,95 @@ jobs:
           pip install -r requirements.txt
 
       # ------------- Tests ----------------
-      - name: test and16
-        run: |
-          pytest hw/test_components.py -k and16
+      # - name: test and16
+      #   run: |
+      #     pytest hw/test_components.py -k and16
 
-      - name: test mux2way
-        run: |
-          pytest hw/test_components.py -k mux2way
+      # - name: test mux2way
+      #   run: |
+      #     pytest hw/test_components.py -k mux2way
         
-      - name: test mux4way
-        run: |
-          pytest hw/test_components.py -k mux4way
+      # - name: test mux4way
+      #   run: |
+      #     pytest hw/test_components.py -k mux4way
 
-      - name: test mux8way
-        run: |
-          pytest hw/test_components.py -k mux8way
+      # - name: test mux8way
+      #   run: |
+      #     pytest hw/test_components.py -k mux8way
         
-      - name: test or8way
-        run: |
-          pytest hw/test_components.py -k or8way
+      # - name: test or8way
+      #   run: |
+      #     pytest hw/test_components.py -k or8way
 
-      - name: test orNway
-        run: |
-          pytest hw/test_components.py -k orNway
+      # - name: test orNway
+      #   run: |
+      #     pytest hw/test_components.py -k orNway
 
-      - name: test barrelShifter
-        run: |
-          pytest hw/test_components.py -k barrelShifter
+      # - name: test barrelShifter
+      #   run: |
+      #     pytest hw/test_components.py -k barrelShifter
 
-      - name: test deMux2way
-        run: |
-          pytest hw/test_components.py -k deMux2way
+      # - name: test deMux2way
+      #   run: |
+      #     pytest hw/test_components.py -k deMux2way
 
-      - name: test deMux4way
-        run: |
-          pytest hw/test_components.py -k deMux4way
+      # - name: test deMux4way
+      #   run: |
+      #     pytest hw/test_components.py -k deMux4way
 
-      - name: test deMux8way
-        run: |
-          pytest hw/test_components.py -k deMux8way
+      # - name: test deMux8way
+      #   run: |
+      #     pytest hw/test_components.py -k deMux8way
 
-      - name: test bin2bcd
-        run: |
-          pytest hw/test_components.py -k bin2bcd
+      # - name: test bin2bcd
+      #   run: |
+      #     pytest hw/test_components.py -k bin2bcd
 
     # testes da ULA #
 
-      - name: test zerador
-        run: |
-          pytest hw/test_ula.py -k zerador
+      # - name: test zerador
+      #   run: |
+      #     pytest hw/test_ula.py -k zerador
 
-      - name: test comparador
-        run: |
-          pytest hw/test_ula.py -k comparador
+      # - name: test comparador
+      #   run: |
+      #     pytest hw/test_ula.py -k comparador
 
-      - name: test inversor
-        run: |
-          pytest hw/test_ula.py -k inversor
+      # - name: test inversor
+      #   run: |
+      #     pytest hw/test_ula.py -k inversor
       
-      - name: test add
-        run: |
-          pytest hw/test_ula.py -k add
+      # - name: test add
+      #   run: |
+      #     pytest hw/test_ula.py -k add
 
-      - name: test inc
-        run: |
-          pytest hw/test_ula.py -k inc
+      # - name: test inc
+      #   run: |
+      #     pytest hw/test_ula.py -k inc
 
-      - name: test ula
-        run: |
-          pytest hw/test_ula.py -k ula
+      # - name: test ula
+      #   run: |
+      #     pytest hw/test_ula.py -k ula
 
-      - name: test xor
-        run: |
-          pytest hw/test_ula.py -k xor
+      # - name: test xor
+      #   run: |
+      #     pytest hw/test_ula.py -k xor
       
-      - name: test new_ula
-        run: |
-          pytest hw/test_ula.py -k new_ula
+      # - name: test new_ula
+      #   run: |
+      #     pytest hw/test_ula.py -k new_ula
       
-      - name: test bcdAdder
-        run: |
-          pytest hw/test_ula.py -k bcdAdder
+      # - name: test bcdAdder
+      #   run: |
+      #     pytest hw/test_ula.py -k bcdAdder
 
-      - name: test addcla4
-        run: |
-          pytest hw/test_ula.py -k addcla4
+      # - name: test addcla4
+      #   run: |
+      #     pytest hw/test_ula.py -k addcla4
 
-      - name: test addcla16
-        run: |
-          pytest hw/test_ula.py -k addcla16
+      # - name: test addcla16
+      #   run: |
+      #     pytest hw/test_ula.py -k addcla16
         
       # testes do SEQ #
 
@@ -132,6 +132,10 @@ jobs:
       - name: test registerN
         run: |
           pytest hw/test_seq.py -k registerN
+      
+      - name: test registerN
+        run: |
+          pytest hw/test_seq.py -k pc
 
 
 
