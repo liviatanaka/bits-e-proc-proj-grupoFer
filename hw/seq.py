@@ -8,13 +8,21 @@ def ram(dout, din, addr, we, clk, rst, width, depth):
     loads = [Signal(bool(0)) for i in range(depth)]
     outputs = [Signal(modbv(0)[width:]) for i in range(depth)]
     registersList = [None for i in range(depth)]
-
+    for i in range(depth):
+        registersList[i] = registerN(din, loads[i], outputs[i], width, clk, rst)
+    
     @always_comb
-    def comb():
-        pass
-
+    def comb():        
+        for i in range(depth):
+            if i == addr:
+                if we == 1 :
+                    loads[addr].next = 1
+                else:
+                    loads[addr].next = 0
+            else:
+                loads[i].next = 0
+        dout.next = outputs[addr]
     return instances()
-
 
 @block
 def pc(increment, load, i, output, width, clk, rst):
@@ -56,19 +64,10 @@ def register8(i, load, output, clk, rst):
 @block
 def binaryDigit(i, load, output, clk, rst):
     q, d, clear, presset = [Signal(bool(0)) for i in range(4)]
-    df = dff(q,d ,clear,presset,clk,rst)
+
     @always_comb
     def comb():
-        if load == 0:
-            if clear:
-                output.next = 0
-            elif presset:
-                output.next = 1
-            else:
-                output.next = q 
-        else:
-            output.next = i
-        
+        pass
 
     return instances()
 

@@ -119,5 +119,10 @@ jobs:
         run: |
           pytest hw/test_ula.py -k addcla16
 
+      - name: test ram
+        run: |
+          pytest hw/test_seq.py -k ram
+      
+
 
 
