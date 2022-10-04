@@ -125,5 +125,13 @@ jobs:
         run: |
           pytest hw/test_seq.py -k binaryDigit
 
+      - name: test register8
+        run: |
+          pytest hw/test_seq.py -k register8
+        
+      - name: test registerN
+        run: |
+          pytest hw/test_seq.py -k registerN
+
 
 
