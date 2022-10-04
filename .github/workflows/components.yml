@@ -118,6 +118,12 @@ jobs:
       - name: test addcla16
         run: |
           pytest hw/test_ula.py -k addcla16
+        
+      # testes do SEQ #
+
+      - name: test binaryDigit
+        run: |
+          pytest hw/test_seq.py -k binaryDigit
 
 
 
