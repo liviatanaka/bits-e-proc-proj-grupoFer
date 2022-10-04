@@ -66,7 +66,7 @@ def binaryDigit(i, load, output, clk, rst):
             aux.next = i
         output.next = q
         
-
+        
     return instances()
 
 
