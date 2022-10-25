@@ -7,35 +7,79 @@
 ;
 ;                                ^            ^
 ;                                | TRUQUE!    | TRUQUE!
-
 PREPARANDO:
-    leaw $3, %A
-    movw $0, (%A)
-
-WHILE:
-
-    ; verifica se o contador zerou
     leaw $0, %A
+    movw %A, %D
+    movw %D, (%A)
+
+    leaw $52, %A
+    movw %A, %D
+
+    leaw $21184, %A
+    movw %D, (%A)
+
+MOVENDO_SW:
+    leaw $21185, %A
     movw (%A), %D
-    leaw $END, %A
-    je 
+    leaw $1, %A
+    andw %A, %D, %D
+
+    leaw $SW1, %A
+    je
     nop
 
-    ; soma RAM[1] + RAM[3] e guarda em RAM[3]
-
-    leaw $1, %A
-    movw (%A), %D
-    leaw $3, %A
+    leaw $2, %A
+    movw %A, %D
+    leaw $21184, %A
     addw (%A), %D, %D
     movw %D, (%A)
 
-    leaw $0, %A
-    subw (%A), $1, %D
-    movw %D, (%A)
+    SW1:
+    leaw $21185, %A
+    movw (%A), %D
+    leaw $128, %A
+    andw %A, %D, %D
 
-    leaw $WHILE, %A
-    jmp
+    leaw $SW2, %A
+    jne
     nop
 
-END:
+    leaw $128, %A
+    movw %A, %D
+    leaw $21184, %A
+    addw (%A), %D, %D
+    movw %D, (%A)
 
+    SW2:
+    leaw $21185, %A
+    movw (%A), %D
+    leaw $256, %A
+    andw %A, %D, %D
+
+    leaw $SW3, %A
+    jne
+    nop
+
+    leaw $256, %A
+    movw %A, %D
+    leaw $21184, %A
+    addw (%A), %D, %D
+    movw %D, (%A)
+
+    SW3:
+    leaw $5, %A
+    movw (%A), %D
+    leaw $8, %A
+    andw %A, %D, %D
+
+    leaw $FINAL, %A
+    je
+    nop
+
+    leaw $8, %A
+    movw %A, %D
+    leaw $21184, %A
+    addw (%A), %D, %D
+    movw %D, (%A)
+
+    FINAL:

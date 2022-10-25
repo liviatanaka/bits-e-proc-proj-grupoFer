@@ -135,11 +135,6 @@ def test_palindromo():
     assert nasm_test("palindromo.nasm", ram, tst, 10000)
 
 
-def test_linha():
-    ram = {}
-    tst = {}
-    nasm_test("linha.nasm", ram, tst, 10000)
-
 
 def test_factorial():
 
@@ -162,3 +157,45 @@ def test_vectorMean():
     ram = {1:0, 4:3, 5:1, 6:1, 7:1}
     tst = {0: 1, 1:3}
     assert nasm_test("vectorMean.nasm", ram, tst, 100000)
+
+    ram = {1:0, 4:3, 5:4, 6:1, 7:1}
+    tst = {0: 2, 1:6}
+    assert nasm_test("vectorMean.nasm", ram, tst, 100000)
+
+
+def test_sweled():
+    ram = {21185: 14}
+    tst = {21185: 14, 21184: 496}
+    assert nasm_test("SWeLED.nasm", ram, tst, 10000)
+
+    ram = {21185: 6}
+    tst = {21185: 6, 21184: 504}
+    assert nasm_test("SWeLED.nasm", ram, tst, 10000)
+
+    ram = {21185: 2}
+    tst = {21185: 2, 21184: 508}
+    assert nasm_test("SWeLED.nasm", ram, tst, 10000)
+
+
+def test_multiploDois():
+    ram = {0: 2, 5: -64}
+    tst = {0: 1}
+    assert nasm_test("multiploDeDois.nasm", ram, tst)
+
+    ram = {0: 2, 5: 1023}
+    tst = {0: 0}
+    assert nasm_test("multiploDeDois.nasm", ram, tst)
+
+    ram = {0: 2, 5: -1023}
+    tst = {0: 0}
+    assert nasm_test("multiploDeDois.nasm", ram, tst)
+
+
+def test_sweled2():
+    ram = {0: 0}
+    tst = {21184: 436}
+    assert nasm_test("SWeLED2.nasm", ram, tst, 100000)
+
+    ram = {5: 8}
+    tst = {21184:444}
+    assert nasm_test("SWeLED2.nasm", ram, tst, 100000)
