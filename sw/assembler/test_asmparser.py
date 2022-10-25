@@ -32,25 +32,23 @@ def test_commandType():
     fnasm = open('test_assets/mult.nasm', 'r')
     ptest = Parser(fnasm)
 
-    assert ptest.advanced() is True
+    ptest.currentCommand = ['leaw', '$2', '%A']
     assert ptest.commandType() == ptest.CommandType['A']
 
-    assert ptest.advanced() is True
+    ptest.currentCommand = ['movw', '$1', '%A']
     assert ptest.commandType() == ptest.CommandType['C']
 
-    assert ptest.advanced() is True
+    ptest.currentCommand = ['WHILE:']
     assert ptest.commandType() == ptest.CommandType['L']
 
-    assert ptest.advanced() is True
+    ptest.currentCommand = ['leaw', '$31', '%A']
     assert ptest.commandType() == ptest.CommandType['A']
 
-    assert ptest.advanced() is True
+    ptest.currentCommand = ['addw', '%D', '%A', '%D']
     assert ptest.commandType() == ptest.CommandType['C']
 
-    assert ptest.advanced() is True
-    assert ptest.commandType() == ptest.CommandType['L']
-
-    assert ptest.advanced() is False
+    ptest.currentCommand = ['rsubw', '%D', '%A', '%D']
+    assert ptest.commandType() == ptest.CommandType['C']
 
 
 def test_symbol():
