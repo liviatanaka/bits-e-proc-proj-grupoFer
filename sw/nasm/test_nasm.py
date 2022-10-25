@@ -124,12 +124,14 @@ def test_palindromo():
     ram = text_to_ram("ararr", 10)
     ram[0] = 2
     tst = {0: 0}
+    print('deu ruim aqui entao')
     assert nasm_test("palindromo.nasm", ram, tst, 10000)
 
     ram = text_to_ram("arara", 10)
     ram[0] = 2
     tst = {0: 1}
     print(ram)
+    print('deu ruim aqui?')
     assert nasm_test("palindromo.nasm", ram, tst, 10000)
 
 
@@ -140,14 +142,14 @@ def test_linha():
 
 
 def test_factorial():
-    ram = {0: 0}
-    tst = {1: math.factorial(ram[0])}
+
+
+    ram = {0: 3}
+    tst = {1: 6}
     assert nasm_test("factorial.nasm", ram, tst, 10000)
 
-    ram = {1: 0}
-    tst = {1: math.factorial(ram[0])}
-    assert nasm_test("factorial.nasm", ram, tst, 10000)
 
-    ram = {1: 4}
-    tst = {1: math.factorial(ram[0])}
-    assert nasm_test("factorial.nasm", ram, tst, 10000)
+def test_matriz():
+    ram = {1000: 2, 1001: 1, 1003: 1, 1004: 2, 0: 3}
+    tst = {0: 3}
+    assert nasm_test("matrizDeterminante.nasm", ram, tst, 10000)
