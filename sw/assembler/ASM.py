@@ -4,12 +4,15 @@ from .ASMparser import Parser
 
 
 class ASM:
+
+    # DONE
     def __init__(self, nasm, hack):
         self.hack = hack
         self.symbolTable = SymbolTable()
         self.parser = Parser(nasm)
         self.code = Code()
 
+    # DONE
     def run(self):
         try:
             self.fillSymbolTable()
