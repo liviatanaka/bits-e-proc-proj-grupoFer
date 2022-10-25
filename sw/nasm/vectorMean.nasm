@@ -20,6 +20,7 @@
 ; RAM[8]:  4  | RAM[8]:  4 -
 ; ------------------------------------
 
+
 SOMA:
     ; zera o valor de RAM[1]
     leaw $0, %A
@@ -27,22 +28,19 @@ SOMA:
     leaw $1, %A
     movw %D, (%A)
 
-    leaw $4, %A
-    movw (%A), %D
+    leaw $5, %A
+    movw %A, %D
     leaw $2, %A ; contador
     movw %D, (%A)
 
+    leaw $4, %A
+    movw (%A), %D
     leaw $3, %A ; indices da ram
     movw %D, (%A)
 
     LoopSoma:
 
-        ; verifica se o contador zerou
-        leaw $3, %A
-        movw (%A), %D
-        leaw $LoopDiv, %A
-        je 
-        nop
+        
 
         ; soma 
         leaw $2, %A
@@ -63,6 +61,13 @@ SOMA:
         addw (%A), $1, %D
         movw %D, (%A)
 
+        ; verifica se o contador zerou
+        leaw $3, %A
+        movw (%A), %D
+        leaw $LoopDiv, %A
+        je 
+        nop
+
         leaw $LoopSoma, %A
         jmp
         nop
@@ -76,7 +81,7 @@ SOMA:
         movw %D, (%A)
 
 
-        ; RAM[3] - RAM[1] ate RAM[3] <= 0
+        ; RAM[3] - RAM[4] ate RAM[3] <= 0
 
         LOOP:
 
