@@ -121,26 +121,41 @@ jobs:
         
       # testes do SEQ #
 
-      - name: test binaryDigit
-        run: |
-          pytest hw/test_seq.py -k binaryDigit
+      # - name: test binaryDigit
+      #   run: |
+      #     pytest hw/test_seq.py -k binaryDigit
 
-      - name: test register8
-        run: |
-          pytest hw/test_seq.py -k register8
+      # - name: test register8
+      #   run: |
+      #     pytest hw/test_seq.py -k register8
         
-      - name: test registerN
-        run: |
-          pytest hw/test_seq.py -k registerN
+      # - name: test registerN
+      #   run: |
+      #     pytest hw/test_seq.py -k registerN
       
-      - name: test pc
-        run: |
-          pytest hw/test_seq.py -k pc
+      # - name: test pc
+      #   run: |
+      #     pytest hw/test_seq.py -k pc
 
-      - name: test ram
-        run: |
-          pytest hw/test_seq.py -k ram
+      # - name: test ram
+      #   run: |
+      #     pytest hw/test_seq.py -k ram
       
+      # Testes Assembler ##########################################
+      - name: test init
+        run: |
+          pytest sw/assembler/test_symboltable.py -k test_init
+        
+      - name: test addEntry
+        run: |
+          pytest sw/assembler/test_symboltable.py -k test_addEntry
 
+      - name: test contains
+        run: |
+          pytest sw/assembler/test_symboltable.py -k test_contains
+
+      - name: test getAddress
+        run: |
+          pytest sw/assembler/test_symboltable.py -k test_getAddress
 
 

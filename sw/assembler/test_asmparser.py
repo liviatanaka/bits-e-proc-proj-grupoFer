@@ -50,6 +50,26 @@ def test_commandType():
     ptest.currentCommand = ['rsubw', '%D', '%A', '%D']
     assert ptest.commandType() == ptest.CommandType['C']
 
+    # Adicione mais algumas linhas ao teste do commandType e verifique se sua implementação continua funcionando:
+
+    ptest.currentCommand = ['negw', '%D']
+    assert ptest.commandType() == ptest.CommandType['C']
+
+    ptest.currentCommand = ['subw', '%D', '%A', '(%A']      
+    assert ptest.commandType() == ptest.CommandType['C']
+
+    # Adicione você mais 3 testes do tipo C, L e A
+    ptest.currentCommand = ['movw', '$1', '%A']
+    assert ptest.commandType() == ptest.CommandType['C']
+
+    ptest.currentCommand = ['WHILE:']
+    assert ptest.commandType() == ptest.CommandType['L']
+
+    ptest.currentCommand = ['leaw', '$31', '%A']
+    assert ptest.commandType() == ptest.CommandType['A']
+
+
+
 
 def test_symbol():
     fnasm = open('test_assets/symbol.nasm', 'r')
