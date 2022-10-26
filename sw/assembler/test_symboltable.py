@@ -6,7 +6,6 @@ from .ASMsymbolTable import SymbolTable
 
 def test_init():
     s = SymbolTable()
-
     assert s.table["R5"] == 5
     assert s.table["KBD"] == 24576
 

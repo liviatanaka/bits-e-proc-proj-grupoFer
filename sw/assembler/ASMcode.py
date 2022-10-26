@@ -5,7 +5,8 @@ class Code:
         """
         Se precisar faca uso de variáveis.
         """
-        pass
+        self.table = {}
+        self.init()
 
     # TODO
     def dest(self, mnemnonic):
