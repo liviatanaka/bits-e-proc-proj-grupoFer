@@ -7,27 +7,25 @@
 ; multiplo de dois, se for verdadeiro, salva 1
 ; em RAM[0] e 0 caso contrário.
 
-LOOP:
+
 leaw $5, %A
 movw (%A), %D
-subw %D, $2, %D
-movw %D, (%A)
-$LOOP, %A
-jg
-nop
-leaw $IFZERO, %A
+leaw $1, %A
+andw %A, %D, %D
+
+leaw $ELSE, %A
 je
 nop
+
 leaw $0, %A
 movw $0, (%A)
-leaw $END, %A
-jmp
-nop
-IFZERO:
-leaw $0, %A
-movw $1, (%A)
-leaw $END, %A
-jmp
-nop
-END:
 
+leaw $END, %A
+jmp 
+nop
+
+ELSE:
+    leaw $0, %A
+    movw $1, (%A)
+
+END:
