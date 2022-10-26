@@ -33,6 +33,10 @@ class Parser:
         entrada o método retorna "Falso", senão retorna "Verdadeiro".
         @return Verdadeiro se ainda há instruções, Falso se as instruções terminaram.
         """
+
+        # você deve varrer self.file (arquivo já aberto) até encontrar: fim de arquivo
+        # ou uma nova instrucao
+        # self.file
         pass
 
     # TODO
@@ -42,10 +46,13 @@ class Parser:
          - self.commandType['A'] para leaw, por exemplo leaw $1,%A
          - self.commandType['L'] para labels, por exemplo Xyz: , onde Xyz é um símbolo.
          - self.commandType['C'] para todos os outros comandos
-        @param  command instrução a ser analisada.
+        @param  self.currentCommand
         @return o tipo da instrução.
         """
+
+        # analise o self.currentCommand
         pass
+
 
     # TODO
     def symbol(self):
@@ -55,6 +62,8 @@ class Parser:
         @param  command instrução a ser analisada.
         @return somente o símbolo ou o valor número da instrução.
         """
+
+        # analise o self.currentCommand
         pass
 
     # TODO
@@ -65,6 +74,8 @@ class Parser:
         @param  command instrução a ser analisada.
         @return o símbolo da instrução (sem os dois pontos).
         """
+
+        # analise o self.currentCommand
         pass
 
     # DONE
