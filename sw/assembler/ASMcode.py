@@ -38,6 +38,23 @@ class Code:
         - return bits: (String de 3 bits) com código em linguagem de máquina para a instrução.
         """
         bits = "000"
+        for i in mnemnonic:
+            if i == "jmp":
+                bits = "111"
+            elif i == "je":
+                bits = "010"
+            elif i == "jne":
+                bits = "101"
+            elif i == "jg":
+                bits = "001"
+            elif i == "jge":
+                bits = "011"
+            elif i == "jl":
+                bits = "100"
+            elif i == "jle":
+                bits = "110"
+            else:
+                bits = "000"
         return bits
 
     # DONE
