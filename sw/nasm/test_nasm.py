@@ -34,13 +34,13 @@ def test_max():
 
 
 def test_mult():
-    ram = {0: 2, 1: 2}
-    tst = {3: 4}
+    ram = {0: 3, 1: 2}
+    tst = {3: 6}
     assert nasm_test("mult.nasm", ram, tst)
 
-    ram = {0: 32, 1: 16}
-    tst = {3: 512}
-    assert nasm_test("mult.nasm", ram, tst, 10000)
+    ram = {0: 6, 1: 6}
+    tst = {3: 36}
+    assert nasm_test("mult.nasm", ram, tst, 100000)
 
 
 def test_mod():
@@ -84,18 +84,18 @@ def test_div():
 
 
 def test_isEven():
-    ram = {0: 2, 5: 64}
+    ram = {0: 3, 5: 6}
     tst = {0: 1}
     assert nasm_test("isEven.nasm", ram, tst)
 
-    ram = {0: 2, 5: 1023}
+    ram = {0: 2, 5: 23}
     tst = {0: 0}
     assert nasm_test("isEven.nasm", ram, tst)
 
 
 def test_pow():
-    ram = {0: 2, 1: 0}
-    tst = {0: 0}
+    ram = {1: 2}
+    tst = {0: 4}
     assert nasm_test("pow.nasm", ram, tst)
 
     ram = {1: 2}
@@ -138,16 +138,36 @@ def test_linha():
     tst = {}
     nasm_test("linha.nasm", ram, tst, 10000)
 
+def test_matriz():
+    ram = {1000: 1, 1001: 2, 1003: 3, 1004: 4, 0: 3}
+    tst = {0: -2}
+    assert nasm_test("matrizDeterminante.nasm", ram, tst, 10000)
+   
+
+
 
 def test_factorial():
     ram = {0: 0}
-    tst = {1: math.factorial(ram[0])}
+    tst = {1: 1}
+    assert nasm_test("factorial.nasm", ram, tst, 100000)
+
+
+
+    ram = {0: 3}
+    tst = {1: 6}
     assert nasm_test("factorial.nasm", ram, tst, 10000)
 
-    ram = {1: 0}
-    tst = {1: math.factorial(ram[0])}
-    assert nasm_test("factorial.nasm", ram, tst, 10000)
+def test_teste():
+    ram = {0: 3, 2: 1}
+    tst = {2: 2}
+    assert nasm_test("teste.nasm", ram, tst, 10000)
 
-    ram = {1: 4}
-    tst = {1: math.factorial(ram[0])}
-    assert nasm_test("factorial.nasm", ram, tst, 10000)
+
+def test_vectorMean():
+    ram = {4: 4, 5:1, 6:2, 7:1, 8:4}
+    tst = {0: 2, 1:8}
+    assert nasm_test("vectorMean.nasm", ram, tst, 10000)
+
+    ram = {1:4, 5:3, 6:1, 7:1, 8:7}
+    tst = {0: 3, 1:12}
+    assert nasm_test("vectorMean.nasm", ram, tst, 10000)
