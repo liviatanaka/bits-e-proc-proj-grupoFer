@@ -142,6 +142,7 @@ jobs:
       #     pytest hw/test_seq.py -k ram
       
       # Testes Assembler ##########################################
+      # SYMBOLTABLE
       - name: test init
         run: |
           pytest sw/assembler/test_symboltable.py -k test_init
@@ -157,5 +158,22 @@ jobs:
       - name: test getAddress
         run: |
           pytest sw/assembler/test_symboltable.py -k test_getAddress
+
+      # CODE
+      - name: test getAddress
+        run: |
+          pytest sw/assembler/test_asmcode.py -k test_dest
+      
+      - name: test getAddress
+        run: |
+          pytest sw/assembler/test_asmcode.py -k test_comp
+      
+      - name: test getAddress
+        run: |
+          pytest sw/assembler/test_asmcode.py -k test_jump
+
+      - name: test getAddress
+        run: |
+          pytest sw/assembler/test_asmcode.py -k test_toBinary
 
 
