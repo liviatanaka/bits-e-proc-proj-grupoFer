@@ -14,9 +14,14 @@ class Code:
         - in mnemnonic: vetor de mnemônicos "instrução" a ser analisada.
         - return bits: String de 4 bits com código em linguagem de máquina
           que define o endereco da operacao
-        """
 
-        bits = "0000"
+        """
+       
+
+            
+
+
+        
         return bits
 
     # TODO
@@ -38,6 +43,24 @@ class Code:
         - return bits: (String de 3 bits) com código em linguagem de máquina para a instrução.
         """
         bits = "000"
+        dic = {
+        "jmp": "111",
+        "je": "010",
+        "jne": "101",
+        "jg":"001",
+        "jge": "011",
+        "jl":"100",
+        "jle": "110"
+
+        }
+
+    
+   
+        if mnemnonic[0][0] == "j":
+       
+            bits  =   dic[mnemnonic[0]]
+      
+        
         return bits
 
     # DONE

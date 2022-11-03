@@ -14,8 +14,20 @@ class SymbolTable:
         SP, LCL, ARG, THIS, THAT
         SCREEN, KBD, ..
         """
+        self.table['R0'] = 0
 
-        pass
+        for i in range(15):
+            self.table['R'+ f'{i}'] = i
+        self.table['KBD'] = 24576
+        self.table['SCREEN'] = 16376
+        self.table['SP'] = 0
+        self.table['LCL'] = 1
+        self.table['ARG'] = 2
+        self.table['THIS'] = 3
+        self.table['THAT'] = 4
+
+
+        
 
     # TODO
     def addEntry(self, symbol: str, address: int):
@@ -24,7 +36,9 @@ class SymbolTable:
         @param symbol símbolo a ser armazenado na tabela de símbolos.
         @param address símbolo a ser armazenado na tabela de símbolos.
         """
-        pass
+
+        self.table[symbol] = address
+
 
     # TODO
     def contains(self, symbol):
@@ -33,6 +47,9 @@ class SymbolTable:
         @param  symbol símbolo a ser procurado na tabela de símbolos.
         @return Verdadeiro se símbolo está na tabela de símbolos, Falso se não está na tabela de símbolos.
         """
+        if symbol in self.table:
+            return True
+        return False
         pass
 
     # TODO
@@ -42,4 +59,5 @@ class SymbolTable:
         @param  symbol símbolo a ser procurado na tabela de símbolos.
         @return valor numérico associado ao símbolo procurado.
         """
-        pass
+        return self.table[symbol]
+        
