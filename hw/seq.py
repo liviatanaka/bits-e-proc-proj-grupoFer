@@ -62,50 +62,50 @@ def pc(increment, load, i, output, width, clk, rst):
     return instances()
 
 
-@block
-def registerN(i, load, output, width, clk, rst):
-    binaryDigitList = [None for n in range(width)]
-    outputs = [Signal(bool(0)) for n in range(width)]
+# @block
+# def registerN(i, load, output, width, clk, rst):
+#     binaryDigitList = [None for n in range(width)]
+#     outputs = [Signal(bool(0)) for n in range(width)]
  
-    for j in range(width):
-        binaryDigitList[j] = binaryDigit(i(j) , load, outputs[j], clk, rst)
+#     for j in range(width):
+#         binaryDigitList[j] = register8(i(j) , load, outputs[j], clk, rst)
  
-    @always_comb
-    def comb():
-        output.next = ConcatSignal(*reversed(outputs))
+#     @always_comb
+#     def comb():
+#         output.next = ConcatSignal(*reversed(outputs))
  
-    return instances()
+#     return instances()
  
  
-@block
-def register8(i, load, output, clk, rst):
-    binaryDigitList = [None for n in range(8)]
-    output_n = [Signal(bool(0)) for n in range(8)]
-    for j in range(8):
-        binaryDigitList[j] = binaryDigit(i(j), load, output_n[j], clk, rst)
+# @block
+# def register8(i, load, output, clk, rst):
+#     binaryDigitList = [None for n in range(8)]
+#     output_n = [Signal(bool(0)) for n in range(8)]
+#     for j in range(8):
+#         binaryDigitList[j] = binaryDigit(i(j), load, output_n[j], clk, rst)
  
-    @always_comb
-    def comb():
-            output.next  = ConcatSignal(*reversed(output_n))
-    return instances()
+#     @always_comb
+#     def comb():
+#             output.next  = ConcatSignal(*reversed(output_n))
+#     return instances()
 
 
-@block
-def binaryDigit(i, load, output, clk, rst):
+# @block
+# def binaryDigit(i, load, output, clk, rst):
 
-    q, d, clear, presset,aux = [Signal(bool(0)) for i in range(5)]
-    df = dff(q,aux,clear,presset,clk,rst)
+#     q, d, clear, presset,aux = [Signal(bool(0)) for i in range(5)]
+#     df = dff(q,aux,clear,presset,clk,rst)
 
-    @always_comb
-    def comb():
-        if load == 0:
-            aux.next = q
-        else:
-            aux.next = i
-        output.next = q
+#     @always_comb
+#     def comb():
+#         if load == 0:
+#             aux.next = q
+#         else:
+#             aux.next = i
+#         output.next = q
         
         
-    return instances()
+#     return instances()
 
 
 @block
@@ -119,4 +119,48 @@ def dff(q, d, clear, presset, clk, rst):
         else:
             q.next = d
 
+    return instances()
+
+@block
+def binaryDigit(i ,load, output, clk, rst):
+    clear = Signal(bool(0))
+    presset = Signal(bool(0))
+    aux = Signal(bool(0))
+    q = Signal(bool(0))
+
+    if load == 0:
+        df = dff(q, i, clear, presset, clk, rst)
+    else:
+        df = dff(q, output, clear, presset, clk, rst)
+    @always_comb
+    def comb():
+        output.next = q
+    return instances()
+
+@block
+def register8(i, load, output, clk, rst):
+    lista = [None for j in range(8)]
+    output_n = [Signal(bool(0)) for n in range(8)]
+    
+    for j in range(8):
+        lista[j] = binaryDigit(i(j), load, output_n[j], clk, rst)
+
+    @always_comb
+    def comb():
+   
+            output.next = ConcatSignal(*reversed(output_n))
+    return instances()
+
+@block
+def registerN(i, load, output,width, clk, rst):
+    lista = [None for j in range(width)]
+    output_n = [Signal(bool(0)) for n in range(width)]
+    
+    for j in range(width):
+        lista[j] = registerN(i[8:]), load, output_n[8:], clk, rst)
+
+    @always_comb
+    def comb():
+   
+            output.next = ConcatSignal(*reversed(output_n))
     return instances()

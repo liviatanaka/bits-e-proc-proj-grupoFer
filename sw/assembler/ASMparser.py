@@ -92,15 +92,16 @@ class Parser:
         @return o tipo da instrução.
         """
         
-        if self.currentCommand[0][0] == "l":
-            return self.CommandType['A']
+      
+        # analise o self.currentCommand
+        if self.currentCommand[0] == "leaw":
+            return self.CommandType["A"]
         elif self.currentCommand[0][-1] == ":":
             return self.CommandType["L"]
         else:
             return self.CommandType["C"]
+    
 
-        # analise o self.currentCommand
-     
 
     # TODO
     def symbol(self):
