@@ -12,7 +12,7 @@ class Code:
         """
         Retorna o código binário do(s) registrador(es) que vão receber o valor da instrução.
         - in mnemnonic: vetor de mnemônicos "instrução" a ser analisada.
-        - return bits: String de 4 bits com código em linguagem de máquina
+        - return bits: String de 3 bits com código em linguagem de máquina
           que define o endereco da operacao
 
         """
