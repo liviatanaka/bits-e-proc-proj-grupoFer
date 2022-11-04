@@ -103,18 +103,18 @@ class Parser:
     
 
 
-    # TODO
     def symbol(self):
-        """
-        Retorna o símbolo ou valor numérico da instrução passada no argumento.
-        Deve ser chamado somente quando commandType() é A_COMMAND.
-        @param  command instrução a ser analisada.
-        @return somente o símbolo ou o valor número da instrução.
-        """
+            """
+            Retorna o símbolo ou valor numérico da instrução passada no argumento.
+            Deve ser chamado somente quando commandType() é A_COMMAND.
+            @param  command instrução a ser analisada.
+            @return somente o símbolo ou o valor número da instrução.
+            """
 
-        # analise o self.currentCommand
- 
-        pass
+            # analise o self.currentCommand
+            if self.commandType() == "L_COMMAND":
+                return self.currentCommand[1].replace("$", "") 
+            pass
 
     # TODO
     def label(self):
@@ -125,11 +125,11 @@ class Parser:
         @return o símbolo da instrução (sem os dois pontos).
         
         """
-     
+        if self.commandType() == "L_COMMAND":
+             return self.currentCommand[0].replace(":", "") 
 
         # analise o self.currentCommand
         pass
-
     # DONE
     def command(self):
         return self.currentCommand

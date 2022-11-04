@@ -101,7 +101,7 @@ def test_symbol():
     assert ptest.advanced() is False
 
 
-def test_labol():
+def test_label():
     fnasm = open(LABOL_NASM, 'r')
     ptest = Parser(fnasm)
 

@@ -180,5 +180,10 @@ jobs:
         run: |
           pytest sw/assembler/test_asmparser.py -k test_advanced
 
+      - name: test symbol
+        run: |
+          pytest sw/assembler/test_asmparser.py -k test_symbol
 
-
+      - name: test label
+        run: |
+          pytest sw/assembler/test_asmparser.py -k test_label

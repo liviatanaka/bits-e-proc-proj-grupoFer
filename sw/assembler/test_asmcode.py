@@ -9,6 +9,7 @@ def erroMsg(tst, result):
 
 
 def test_dest():
+    
     test_vector = [
         [["movw", "%A", "%D"], "010"],
         [["movw", "%A", "(%A)"], "100"],
