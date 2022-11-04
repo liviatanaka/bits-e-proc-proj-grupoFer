@@ -4,7 +4,7 @@ from .ASMparser import Parser
 
 
 def test_advanced():
-    fnasm = open('test_assets/mult.nasm', 'r')
+    fnasm = open('sw/assembler/test_assets/mult.nasm', 'r')
     ptest = Parser(fnasm)
 
     assert ptest.advanced() is True
@@ -49,6 +49,14 @@ def test_commandType():
 
     ptest.currentCommand = ['rsubw', '%D', '%A', '%D']
     assert ptest.commandType() == ptest.CommandType['C']
+    ptest.currentCommand = ['negw', '%D']
+    assert ptest.commandType() == ptest.CommandType['C']
+
+    ptest.currentCommand = ['subw', '%D', '%A', '(%A']
+    assert ptest.commandType() == ptest.CommandType['C']
+
+    
+
 
     # Adicione mais algumas linhas ao teste do commandType e verifique se sua implementação continua funcionando:
 

@@ -34,13 +34,13 @@ def test_max():
 
 
 def test_mult():
-    ram = {0: 2, 1: 2}
-    tst = {3: 4}
+    ram = {0: 3, 1: 2}
+    tst = {3: 6}
     assert nasm_test("mult.nasm", ram, tst)
 
-    ram = {0: 32, 1: 16}
-    tst = {3: 512}
-    assert nasm_test("mult.nasm", ram, tst, 10000)
+    ram = {0: 6, 1: 6}
+    tst = {3: 36}
+    assert nasm_test("mult.nasm", ram, tst, 100000)
 
 
 def test_mod():
@@ -62,40 +62,66 @@ def test_mod():
 
 
 def test_div():
-    ram = {0: 0, 1: 5}
-    tst = {2: 0}
+
+    ram = {0: 0, 1: 0, 5: 5}
+    tst = {5: 6}
+    assert nasm_test("div.nasm", ram, tst)
+  
+    ram = {0: 1, 1: 0, 5: 5}
+    tst = {5: 6}
     assert nasm_test("div.nasm", ram, tst)
 
-    ram = {0: 4, 1: 2}
-    tst = {2: 2}
+
+
+    ram = {0: 3, 1: 0, 5: 5}
+    tst = {5: 4}
     assert nasm_test("div.nasm", ram, tst)
 
-    ram = {0: 30, 1: 5}
-    tst = {2: 6}
-    assert nasm_test("div.nasm", ram, tst, 10000)
 
-    ram = {0: 46, 1: 5}
-    tst = {2: 9}
-    assert nasm_test("div.nasm", ram, tst, 10000)
 
-    ram = {0: 1023, 1: 7}
-    tst = {2: 146}
-    assert nasm_test("div.nasm", ram, tst, 10000)
+    ram = {0: 0, 1: 1, 5: 5}
+    tst = {5: 4}
+    assert nasm_test("div.nasm", ram, tst)
+
+def test_senha_certo():
+    ram = {0: 9, 21184: 0, 21185: 9}
+    tst = {21184: 1}
+    assert nasm_test("div.nasm", ram, tst)
+
+def text_to_ram(text, offset=0):
+    ram = {}
+    for i in range(len(text)):
+        ram[i + offset] = ord(text[i])
+    ram[1 + len(text)] = 0
+    return ram
+
+
+
+def test_uppercase_exemplo():
+    ram = text_to_ram("Hello", 8)
+    tst = text_to_ram("HELLO", 8)
+    assert nasm_test("div.nasm", ram, tst, 4000)
+
+
+def test_senha_errado():
+    ram = {0: 9, 21184: 0, 21185: 2}
+    tst = {21184: 6}
+    assert nasm_test("div.nasm", ram, tst)
 
 
 def test_isEven():
-    ram = {0: 2, 5: 64}
+    ram = {0: 3, 5: 6}
     tst = {0: 1}
     assert nasm_test("isEven.nasm", ram, tst)
 
-    ram = {0: 2, 5: 1023}
+    ram = {0: 2, 5: 23}
     tst = {0: 0}
     assert nasm_test("isEven.nasm", ram, tst)
 
 
 def test_pow():
-    ram = {0: 2, 1: 0}
-    tst = {0: 0}
+    ram = {1: 2}
+    tst = {0: 4}
     assert nasm_test("pow.nasm", ram, tst)
 
     ram = {1: 2}

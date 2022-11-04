@@ -33,10 +33,52 @@ class Parser:
         entrada o método retorna "Falso", senão retorna "Verdadeiro".
         @return Verdadeiro se ainda há instruções, Falso se as instruções terminaram.
         """
+  
+       
+        
+        if self.lineNumber != 0:
+            arquivo = self.file
+            self.file = arquivo
+        else:
+            arquivo = self.file.readlines()
+            self.file = arquivo
+        variavel = -1
+        while arquivo[variavel] == "\n" or ";" in arquivo[variavel]:
+            del arquivo[variavel]
+            variavel -= 1
+        
+
+        if self.lineNumber >= len(arquivo):
+            return False
+     
+        linha_arquivo = self.lineNumber
+        for linha in range(linha_arquivo, len(arquivo)):
+            if arquivo[linha] == "\n":
+                self.lineNumber += 1
+            elif ";" in arquivo[linha]:
+                self.lineNumber += 1
+            else:
+                break
+
+        self.currentCommand = arquivo[self.lineNumber].replace(",", "").split()
+        if arquivo[self.lineNumber][-1] == "\n":
+            self.lineNumber += 1
+            return True
+        self.lineNumber += 1
+        return True
+
+
+       
+
+        
+        
+
 
         # você deve varrer self.file (arquivo já aberto) até encontrar: fim de arquivo
         # ou uma nova instrucao
         # self.file
+        
+      
         pass
 
     # TODO
@@ -49,7 +91,8 @@ class Parser:
         @param  self.currentCommand
         @return o tipo da instrução.
         """
-
+        
+      
         # analise o self.currentCommand
         if self.currentCommand[0] == "leaw":
             return self.CommandType["A"]
@@ -70,6 +113,7 @@ class Parser:
         """
 
         # analise o self.currentCommand
+ 
         pass
 
     # TODO
@@ -79,7 +123,9 @@ class Parser:
         Deve ser chamado somente quando commandType() é L_COMMAND.
         @param  command instrução a ser analisada.
         @return o símbolo da instrução (sem os dois pontos).
+        
         """
+     
 
         # analise o self.currentCommand
         pass

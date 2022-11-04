@@ -14,7 +14,12 @@ class Code:
         - in mnemnonic: vetor de mnemônicos "instrução" a ser analisada.
         - return bits: String de 4 bits com código em linguagem de máquina
           que define o endereco da operacao
+
         """
+       
+
+            
+
 
         # duas entradas
         com_destino = ['leaw', 'movw', 'addw', 'subw', 'rsubw', 'andw', 'orw']

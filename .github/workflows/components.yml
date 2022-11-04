@@ -175,5 +175,10 @@ jobs:
       - name: test getAddress
         run: |
           pytest sw/assembler/test_asmcode.py -k test_toBinary
+        
+      - name: test advanced
+        run: |
+          pytest sw/assembler/test_asmparser.py -k test_advanced
+
 
 
