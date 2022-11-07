@@ -31,7 +31,12 @@ class ASM:
 
         Dependencia : Parser, SymbolTable
         """
-        self.parser.reset()
+        while self.parser.advanced():
+            if self.parser.commandType() == "L_COMMAND":
+                self.symbolTable.addEntry(self.parser.label(), self.parser.currentLine)
+
+
+        
 
     # TODO
     def generateMachineCode(self):
@@ -42,11 +47,28 @@ class ASM:
 
         Dependencias : Parser, Code
         """
+        self.parser.lineNumber = 0
+        self.parser.currentCommand = ''
+        self.parser.file = open('test_assets/factorial.nasm', 'r')
 
         while self.parser.advanced():
+
+            mnemnonic = self.parser.currentCommand
             if self.parser.commandType() == "C_COMMAND":
-                bin = ""
+                if mnemnonic[0] == 'nop':
+                    bin ='100001010100000000'
+                elif mnemnonic[0][0] == 'j':
+                    bin = '100000011000000' + self.code.jump(mnemnonic) 
+                else:
+                    bin = "1000" + self.code.comp(mnemnonic) + "0" + self.code.dest(mnemnonic) + self.code.jump(mnemnonic)
                 self.hack.write(bin + "\n")
+
             elif self.parser.commandType() == "A_COMMAND":
-                bin = ""
+                x = self.symbolTable.getAddress(self.parser.symbol())
+                
+                if x == None:
+                    bin = "00" + self.code.toBinary(self.parser.symbol())
+                else:
+                    bin = "00" + self.code.toBinary(x)
                 self.hack.write(bin + "\n")
+

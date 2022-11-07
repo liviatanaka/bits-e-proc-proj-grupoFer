@@ -160,22 +160,23 @@ jobs:
           pytest sw/assembler/test_symboltable.py -k test_getAddress
 
       # CODE
-      - name: test getAddress
+      - name: test dest
         run: |
           pytest sw/assembler/test_asmcode.py -k test_dest
       
-      - name: test getAddress
+      - name: test comp
         run: |
           pytest sw/assembler/test_asmcode.py -k test_comp
       
-      - name: test getAddress
+      - name: test jump
         run: |
           pytest sw/assembler/test_asmcode.py -k test_jump
 
-      - name: test getAddress
+      - name: test toBinary
         run: |
           pytest sw/assembler/test_asmcode.py -k test_toBinary
         
+      # PARSER
       - name: test advanced
         run: |
           pytest sw/assembler/test_asmparser.py -k test_advanced
@@ -187,3 +188,17 @@ jobs:
       - name: test label
         run: |
           pytest sw/assembler/test_asmparser.py -k test_label
+      
+      # ASM
+      - name: test fillSymbolTtable_labels
+        run: |
+          pytest sw/assembler/test_asm.py -k test_fillSymbolTtable_labels
+      
+      - name: test fillsymboltable_address
+        run: |
+          pytest sw/assembler/test_asm.py -k test_fillsymboltable_address
+
+      - name: test asm_run
+        run: |
+          pytest sw/assembler/test_asm.py -k test_asm_run
+      

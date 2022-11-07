@@ -7,7 +7,7 @@ class Parser:
         self.file = inputFile  # self.openFile()  # arquivo de leitura
         self.lineNumber = 0  # linha atual do arquivo (nao do codigo gerado)
         self.currentCommand = ""  # comando atual
-        self.currentLine = ""  # linha de codigo atual
+        self.currentLine = 0  # linha de codigo atual
         self.CommandType = {"A": "A_COMMAND", "C": "C_COMMAND", "L": "L_COMMAND"}
 
     # DONE
@@ -33,8 +33,6 @@ class Parser:
         entrada o método retorna "Falso", senão retorna "Verdadeiro".
         @return Verdadeiro se ainda há instruções, Falso se as instruções terminaram.
         """
-  
-       
         
         if self.lineNumber != 0:
             arquivo = self.file
@@ -42,25 +40,45 @@ class Parser:
         else:
             arquivo = self.file.readlines()
             self.file = arquivo
+
         variavel = -1
-        while arquivo[variavel] == "\n" or ";" in arquivo[variavel]:
+        while arquivo[variavel] == "\n": #or ";" in arquivo[variavel]:
             del arquivo[variavel]
             variavel -= 1
-        
 
         if self.lineNumber >= len(arquivo):
             return False
-     
+
+        comComentario = False
         linha_arquivo = self.lineNumber
         for linha in range(linha_arquivo, len(arquivo)):
+
             if arquivo[linha] == "\n":
                 self.lineNumber += 1
             elif ";" in arquivo[linha]:
                 self.lineNumber += 1
-            else:
-                break
 
-        self.currentCommand = arquivo[self.lineNumber].replace(",", "").split()
+                
+                if arquivo[linha].replace(' ','').split(';')[0] != '' :
+                    
+                    if ':' not in arquivo[linha]:
+                        self.currentLine += 1
+                        comComentario = True
+                        break
+
+            else:
+                if ':' not in arquivo[linha]:
+                    self.currentLine += 1
+                break
+        if comComentario:
+            self.lineNumber -= 1
+            linha_ = arquivo[self.lineNumber].split(';')[0]
+
+        else:
+            linha_ = arquivo[self.lineNumber]
+        self.currentCommand = linha_.replace(",", "").split()
+
+
         if arquivo[self.lineNumber][-1] == "\n":
             self.lineNumber += 1
             return True
@@ -68,18 +86,10 @@ class Parser:
         return True
 
 
-       
-
-        
-        
-
-
         # você deve varrer self.file (arquivo já aberto) até encontrar: fim de arquivo
         # ou uma nova instrucao
         # self.file
-        
-      
-        pass
+
 
     # TODO
     def commandType(self):
@@ -112,7 +122,7 @@ class Parser:
             """
 
             # analise o self.currentCommand
-            if self.commandType() == "L_COMMAND":
+            if self.commandType() == "A_COMMAND":
                 return self.currentCommand[1].replace("$", "") 
             pass
 
