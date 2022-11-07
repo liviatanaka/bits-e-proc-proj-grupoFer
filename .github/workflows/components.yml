@@ -187,3 +187,7 @@ jobs:
       - name: test label
         run: |
           pytest sw/assembler/test_asmparser.py -k test_label
+      
+      - name: test ASM
+        run: |
+          pytest sw/assembler/pytest -k test_asm
