@@ -7,7 +7,7 @@ class Parser:
         self.file = inputFile  # self.openFile()  # arquivo de leitura
         self.lineNumber = 0  # linha atual do arquivo (nao do codigo gerado)
         self.currentCommand = ""  # comando atual
-        self.currentLine = ""  # linha de codigo atual
+        self.currentLine = 0  # linha de codigo atual
         self.CommandType = {"A": "A_COMMAND", "C": "C_COMMAND", "L": "L_COMMAND"}
 
     # DONE
@@ -42,12 +42,12 @@ class Parser:
         else:
             arquivo = self.file.readlines()
             self.file = arquivo
+
         variavel = -1
         while arquivo[variavel] == "\n" or ";" in arquivo[variavel]:
             del arquivo[variavel]
             variavel -= 1
-        
-
+        print(arquivo)
         if self.lineNumber >= len(arquivo):
             return False
      
@@ -57,8 +57,21 @@ class Parser:
                 self.lineNumber += 1
             elif ";" in arquivo[linha]:
                 self.lineNumber += 1
+                
+                if arquivo[linha].replace(' ','').split(';')[0] != '' :
+                    
+                    if ':' not in arquivo[linha]:
+                        
+                        self.currentLine += 1
+
             else:
+                if ':' not in arquivo[linha]:
+                    self.currentLine += 1
                 break
+
+            
+            
+                
 
         self.currentCommand = arquivo[self.lineNumber].replace(",", "").split()
         if arquivo[self.lineNumber][-1] == "\n":
@@ -112,7 +125,7 @@ class Parser:
             """
 
             # analise o self.currentCommand
-            if self.commandType() == "L_COMMAND":
+            if self.commandType() == "A_COMMAND":
                 return self.currentCommand[1].replace("$", "") 
             pass
 
