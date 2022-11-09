@@ -45,7 +45,7 @@ class ASM:
         Varre o código em busca de instruções do tipo A, C
         gerando a linguagem de máquina a partir do parse das instruções.
 
-        Dependencias : Parser, Code
+        Dependencias : Parser, Code, fillSymbolTable
         """
         self.parser.lineNumber = 0
         self.parser.currentCommand = ''
