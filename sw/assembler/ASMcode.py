@@ -186,4 +186,29 @@ class Code:
         """
         Converte um valor inteiro para binário 16 bits.
         """
-        return f"{int(value):016b}"
+        v = f"{int(value):016b}"
+        if int(value) >= 0:
+            return v
+        else:
+            print(value)
+            v_neg = ''
+            for i in range(16):
+                if v[i] == '1':
+                    v_neg += '0'
+                else:
+                    v_neg += '1'
+            print(v_neg)
+            aux = 1
+            r = ''
+            for i in range(15, -1, -1):
+                print(v_neg[i])
+                if v_neg[i] == '1' and aux == 1:
+                    r = '0' + r
+                    aux = 1
+                else:
+                    if v_neg[i] == '1' or (v_neg[i] == '0' and aux == 1):
+                        r = '1' + r
+                    else:
+                        r = '0' + r
+                    aux = 0
+            return f"{r}"
