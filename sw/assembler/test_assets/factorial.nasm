@@ -36,7 +36,7 @@ leaw $DOIS, %A
 movw (%A), %D
 leaw $END, %A ; já verificando se o contador <= 0, se for vai para o END e depois parte para o segundo loop.
 jle %D
-nop
+; falta nop
 
 leaw $0, %A
 movw (%A), %D
@@ -57,7 +57,7 @@ movw %D, (%A)
 
 leaw $WHILE, %A
 jmp
-nop
+; falta nop
 
 CASOZERO:
 leaw $1, %A

@@ -32,7 +32,7 @@ class ASM:
 
         Dependencia : Parser, SymbolTable
         """
-
+        
         while self.parser.advanced():
             if self.parser.commandType() == "L_COMMAND":
                 self.symbolTable.addEntry(self.parser.label(), self.parser.currentLine - self.numConstant + self.parser.numNop) # para consertar o symboltable
@@ -53,23 +53,34 @@ class ASM:
         self.parser.lineNumber = 0
         self.parser.currentCommand = ''
         self.parser.file = open('test_assets/factorial.nasm', 'r')
-        coloca_nop = False
+
         while self.parser.advanced():
-            
 
             mnemnonic = self.parser.currentCommand
             if self.parser.commandType() == "C_COMMAND":
-                if mnemnonic[0] == 'nop' or coloca_nop:
+
+                if mnemnonic[0] == 'nop' :
+
                     bin ='100001010100000000'
                     coloca_nop = False
+                    self.hack.write(bin + "\n")
                 elif mnemnonic[0][0] == 'j':
+
                     if self.parser.faltanop:
-                        coloca_nop = True
-                    bin = '100000011000000' + self.code.jump(mnemnonic)
+                        bin = '100000011000000' + self.code.jump(mnemnonic)
+                        self.hack.write(bin + "\n")
+                        bin ='100001010100000000'
+                        self.hack.write(bin + "\n")
+                    else:
+                        bin = '100000011000000' + self.code.jump(mnemnonic)
+                        self.hack.write(bin + "\n")
+
+                else:
+                    bin = "1000" + self.code.comp(mnemnonic) + "0" + self.code.dest(mnemnonic) + self.code.jump(mnemnonic)
+                    self.hack.write(bin + "\n")
             elif self.parser.commandType() == "A_COMMAND":
                 x = self.symbolTable.getAddress(self.parser.symbol())
-                # print(x)
-                # print(self.symbolTable.table)
+
                 
                 if x == None:
                     bin = "00" + self.code.toBinary(self.parser.symbol())

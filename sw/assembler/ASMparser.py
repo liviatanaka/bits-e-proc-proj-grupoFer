@@ -10,7 +10,7 @@ class Parser:
         self.currentLine = 0  # linha de codigo atual
         self.CommandType = {"A": "A_COMMAND", "C": "C_COMMAND", "L": "L_COMMAND"}
         self.numNop = 0
-        self.nopsFaltantes = []
+        self.faltanop = False
 
     # DONE
     def openFile(self):
@@ -51,12 +51,11 @@ class Parser:
         if self.lineNumber >= len(arquivo):
             return False
         
-        # adicionou_jump = True
+        self.faltanop = False
         jumps = "jmp je jl jg jle jge"
         jump = arquivo[self.lineNumber].split(";")
         a = jump[0].replace(" ", "").replace("\n", "")
-        
-        if jump[0] != "\n" and jump[0] != "" and a in jumps :
+        if jump[0] != "\n" and jump[0] != "" and a[:len(a)-2] in jumps :
 
             proxima_linha = self.lineNumber
            
@@ -69,9 +68,8 @@ class Parser:
                         break
                     else:
                         self.faltanop = True
-                        if proxima_linha not in self.nopsFaltantes:
-                            self.numNop += 1
-                            self.nopsFaltantes.append(proxima_linha)
+                        self.numNop += 1
+
                        
                         break
 
