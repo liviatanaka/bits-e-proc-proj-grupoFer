@@ -11,6 +11,7 @@ class ASM:
         self.symbolTable = SymbolTable()
         self.parser = Parser(nasm)
         self.code = Code()
+        self.numConstant = 0
 
     # DONE
     def run(self):
@@ -31,13 +32,15 @@ class ASM:
 
         Dependencia : Parser, SymbolTable
         """
+        
         while self.parser.advanced():
             if self.parser.commandType() == "L_COMMAND":
-                self.symbolTable.addEntry(self.parser.label(), self.parser.currentLine)
+                self.symbolTable.addEntry(self.parser.label(), self.parser.currentLine - self.numConstant + self.parser.numNop) # para consertar o symboltable
+                if self.parser.currentCommand[0] == 'constant':
+                    self.symbolTable.addEntry(self.parser.symbol(), self.parser.constant())
+                    self.numConstant += 1
 
-
-        
-
+                
     # TODO
     def generateMachineCode(self):
         """
@@ -55,16 +58,29 @@ class ASM:
 
             mnemnonic = self.parser.currentCommand
             if self.parser.commandType() == "C_COMMAND":
-                if mnemnonic[0] == 'nop':
+
+                if mnemnonic[0] == 'nop' :
+
                     bin ='100001010100000000'
+                    coloca_nop = False
+                    self.hack.write(bin + "\n")
                 elif mnemnonic[0][0] == 'j':
-                    bin = '100000011000000' + self.code.jump(mnemnonic) 
+
+                    if self.parser.faltanop:
+                        bin = '100000011000000' + self.code.jump(mnemnonic)
+                        self.hack.write(bin + "\n")
+                        bin ='100001010100000000'
+                        self.hack.write(bin + "\n")
+                    else:
+                        bin = '100000011000000' + self.code.jump(mnemnonic)
+                        self.hack.write(bin + "\n")
+
                 else:
                     bin = "1000" + self.code.comp(mnemnonic) + "0" + self.code.dest(mnemnonic) + self.code.jump(mnemnonic)
-                self.hack.write(bin + "\n")
-
+                    self.hack.write(bin + "\n")
             elif self.parser.commandType() == "A_COMMAND":
                 x = self.symbolTable.getAddress(self.parser.symbol())
+
                 
                 if x == None:
                     bin = "00" + self.code.toBinary(self.parser.symbol())

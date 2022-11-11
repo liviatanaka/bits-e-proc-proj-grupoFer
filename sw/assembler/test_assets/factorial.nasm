@@ -6,6 +6,8 @@
 ; Calcula o fatorial do número em R0 e armazena o valor em R1.
 
 
+constant $DOIS, 2
+
 leaw $1, %A
 movw $0, (%A) ;ter certeza que a RAM[1] começa com 0.
 
@@ -19,7 +21,7 @@ leaw $0, %A
 movw (%A), %D
 leaw $R5, %A ; salvando o que está em RAM[0] no contador externo.
 movw %D, (%A)
-leaw $2, %A ; passando o que está em RAM[0] para o RAM[2] que vai ser o contador interno.
+leaw $DOIS, %A ; passando o que está em RAM[0] para o RAM[2] que vai ser o contador interno.
 movw %D, (%A)
 leaw $R5, %A ; o contador externo necessariamente já começa com um a menos.
 movw (%A), %D
@@ -27,14 +29,14 @@ subw %D, $1, (%A)
 
 WHILE:
 
-leaw $2, %A
+leaw $DOIS, %A
 movw (%A), %D
 subw %D, $1, (%A) ;diminuindo o contador interno toda vez que passa por ele.
-leaw $2, %A
+leaw $DOIS, %A
 movw (%A), %D
 leaw $END, %A ; já verificando se o contador <= 0, se for vai para o END e depois parte para o segundo loop.
 jle %D
-nop
+; falta nop
 
 leaw $0, %A
 movw (%A), %D
@@ -55,7 +57,7 @@ movw %D, (%A)
 
 leaw $WHILE, %A
 jmp
-nop
+; falta nop
 
 CASOZERO:
 leaw $1, %A
@@ -67,7 +69,7 @@ leaw $R5, %A
 movw (%A), %D
 decw %D
 movw %D, (%A)
-leaw $2, %A
+leaw $DOIS, %A
 movw %D, (%A)
 
 leaw $ENDD, %A

@@ -10,3 +10,7 @@ Link da imagem da nova ula:
 
 Link do Video do projeto de sequencia:
 https://youtu.be/LUT4gpHo0E8https://youtu.be/LUT4gpHo0E8
+
+Funcionalidade adicional
+* possibilita adicionar uma constante para acessar a RAM, tal como "SP" a partir do comando
+constant $NOME_CONSTANTE, VALOR

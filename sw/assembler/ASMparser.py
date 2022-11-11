@@ -9,6 +9,8 @@ class Parser:
         self.currentCommand = ""  # comando atual
         self.currentLine = 0  # linha de codigo atual
         self.CommandType = {"A": "A_COMMAND", "C": "C_COMMAND", "L": "L_COMMAND"}
+        self.numNop = 0
+        self.faltanop = False
 
     # DONE
     def openFile(self):
@@ -48,6 +50,29 @@ class Parser:
 
         if self.lineNumber >= len(arquivo):
             return False
+        
+        self.faltanop = False
+        jumps = "jmp je jl jg jle jge"
+        jump = arquivo[self.lineNumber].split(";")
+        a = jump[0].replace(" ", "").replace("\n", "")
+        if jump[0] != "\n" and jump[0] != "" and a[:len(a)-2] in jumps :
+
+            proxima_linha = self.lineNumber
+           
+            while True:
+                proxima_linha += 1
+                if arquivo[proxima_linha] == "\n":
+                    continue
+                if arquivo[proxima_linha].split(";")[0] != "":
+                    if "nop" in arquivo[proxima_linha].split(";")[0]:
+                        break
+                    else:
+                        self.faltanop = True
+                        self.numNop += 1
+
+                       
+                        break
+
 
         comComentario = False
         linha_arquivo = self.lineNumber
@@ -106,12 +131,13 @@ class Parser:
         # analise o self.currentCommand
         if self.currentCommand[0] == "leaw":
             return self.CommandType["A"]
-        elif self.currentCommand[0][-1] == ":":
+        elif self.currentCommand[0][-1] == ":" or self.currentCommand[0] == 'constant':
             return self.CommandType["L"]
         else:
             return self.CommandType["C"]
     
-
+    def constant(self):
+        return self.currentCommand[2]
 
     def symbol(self):
             """
@@ -123,8 +149,10 @@ class Parser:
 
             # analise o self.currentCommand
             if self.commandType() == "A_COMMAND":
-                return self.currentCommand[1].replace("$", "") 
-            pass
+                return self.currentCommand[1].replace("$", "")
+            elif self.currentCommand[0] == 'constant':
+                return self.currentCommand[1].replace("$", "")
+
 
     # TODO
     def label(self):
