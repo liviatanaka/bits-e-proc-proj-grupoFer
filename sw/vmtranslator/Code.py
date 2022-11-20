@@ -92,7 +92,21 @@ class Code:
         commands.append(self.writeHead(command))
 
         if command == "add":
-            pass # TODO
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('decw %A')
+            commands.append('addw (%A), %D, %D')
+            commands.append('movw %D, (%A)')
+            commands.append('incw %A')
+            commands.append('movw %A, %D')
+            commands.append('leaw $SP, %A')
+            commands.append('movw %D, (%A)')
+            
+        
+        
+        
         elif command == "sub":
             pass # TODO
         elif command == "or":
@@ -100,10 +114,26 @@ class Code:
         elif command == "and":
             pass # TODO
         elif command == "not":
-            pass # TODO
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('notw %D')
+            commands.append('movw %D, (%A)')
+
         elif command == "neg":
             pass # TODO
         elif command == "eq":
+            verifica_0 = self.getUniqLabel()
+
+            commands.append('leaw $SP, %A')
+            commands.append('movw (%A), %A')
+            commands.append('decw %A')
+            commands.append('movw (%A), %D')
+            commands.append('decw %A')
+            commands.append('subw (%A), %D, %D')
+            commands.append(f'leaw ${verifica_0}, %A')
+            
             # dica, usar self.getUniqLabel() para obter um label único
             pass # TODO
         elif command == "gt":
