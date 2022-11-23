@@ -36,6 +36,12 @@ def test_pop_local():
     tst = {0: 257, 32:z, 34: y}
     assert vm_test(abs_path("test_assets/pop_local.vm"), ram, tst)
 
+def test_pop_argument():
+    x = 4; y = 8; z = 13
+    ram = {SP: 259, ARG: 32, 256: x, 257: y, 258: z}
+    tst = {0: 257, 32:z, 34: y}
+    assert vm_test(abs_path("test_assets/pop_argument.vm"), ram, tst)
+
 def test_pop_this():
     x = 4; y = 8; z = 13
     ram = {SP: 259, THIS: 1024, 256: x, 257: y, 258: z}
